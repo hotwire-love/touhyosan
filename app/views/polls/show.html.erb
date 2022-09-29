@@ -1,0 +1,9 @@
+<h1>投票さん</h1>
+
+<h2>「<%= @poll.title %>」</h2>
+
+<ul>
+  <% @poll.choices.each do |choice| %>
+    <li><%= choice.title %></li>
+  <% end %>
+</ul>
