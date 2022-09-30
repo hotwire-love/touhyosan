@@ -10,7 +10,7 @@ class PollsController < ApplicationController
   def create
     @poll = Poll.new(poll_params)
     if @poll.save
-      redirect_to @poll
+      redirect_to poll_path(@poll)
     else
       render :new, status: :unprocessable_entity
     end
