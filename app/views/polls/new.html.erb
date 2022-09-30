@@ -1,0 +1,7 @@
+<h1>投票さん</h1>
+
+<%= bootstrap_form_for @poll do |f| %>
+  <%= f.text_field :title %>
+  <%= f.text_area :choices_text %>
+  <%= f.submit class: 'btn btn-primary' %>
+<% end %>
