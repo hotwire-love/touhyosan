@@ -1,6 +1,7 @@
 class Poll < ApplicationRecord
-  validates :title, presence: true
   has_many :choices, dependent: :destroy
+
+  validates :title, presence: true
 
   def choices_text
     choices.map(&:title).join("\n")
