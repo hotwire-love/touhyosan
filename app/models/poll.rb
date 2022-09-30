@@ -8,6 +8,6 @@ class Poll < ApplicationRecord
   end
 
   def choices_text=(text)
-    self.choices = text.split("\n").map { |title| choices.find_or_initialize_by(title:) }
+    self.choices = text.split(/\R/).map { |title| choices.find_or_initialize_by(title:) }
   end
 end
