@@ -5,4 +5,8 @@ export default class extends Controller {
   connect() {
     autosize(this.element)
   }
+
+  disconnect(){
+    autosize.destroy(this.element);
+  }
 }
