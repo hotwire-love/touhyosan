@@ -2,6 +2,6 @@
 
 <%= bootstrap_form_for [@poll, @vote] do |f| %>
   <%= f.text_field :user_name %>
-  <%= f.text_area :comment %>
+  <%= f.text_area :comment, data: {controller: 'textarea-autosize'} %>
   <%= f.submit class: 'btn btn-primary' %>
 <% end %>
