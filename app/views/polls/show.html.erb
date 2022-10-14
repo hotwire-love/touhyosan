@@ -7,3 +7,15 @@
     <li><%= choice.title %></li>
   <% end %>
 </ul>
+
+<% @poll.votes.each do |vote| %>
+  <p>
+    <%= vote.user_name %>
+  </p>
+  <p>
+    <%= vote.comment %>
+  </p>
+  <hr>
+<% end %>
+
+<%= link_to '投票を作成', new_poll_vote_path(@poll) %>
