@@ -2,6 +2,12 @@
 
 [Hotwire.love](https://hotwire-love.connpass.com/)のミートアップで「みんなが話したいテーマ」を多数決で決めるためのツールです。
 
+## Design 
+
+簡単なER図や画面遷移図など。
+
+https://miro.com/app/board/uXjVPSNbiAc=/
+
 ## Requirements
 
 - Ruby 3.x.x (Gemfileに記載されているRubyバージョンを参照)
