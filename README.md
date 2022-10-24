@@ -1,24 +1,30 @@
-# README
+# touhyosan
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[Hotwire.love](https://hotwire-love.connpass.com/)のミートアップで「みんなが話したいテーマ」を多数決で決めるためのツールです。
 
-Things you may want to cover:
+## Design 
 
-* Ruby version
+簡単なER図や画面遷移図など。
 
-* System dependencies
+https://miro.com/app/board/uXjVPSNbiAc=/
 
-* Configuration
+## Requirements
 
-* Database creation
+- Ruby 3.x.x (Gemfileに記載されているRubyバージョンを参照)
+- PostgreSQL
+- yarn
 
-* Database initialization
+## How to setup 
 
-* How to run the test suite
+1. 自分のアカウントにリポジトリをフォークする
+1. ローカル環境にgit cloneして`cd touhyosan`
+1. DBの接続情報をローカル環境に合わせて更新する　
+   - `cp config/database.yml.sample config/database.yml`
+   - `vi config/database.yml`
+1. `bin/setup`を実行する
+1. `bin/dev`でサーバーを起動する
+1. http://localhost:3000 が正常に表示されればOK
 
-* Services (job queues, cache servers, search engines, etc.)
+## License 
 
-* Deployment instructions
-
-* ...
+MIT License.
