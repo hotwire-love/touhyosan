@@ -36,4 +36,3 @@
 
 /node_modules
 /config/database.yml
-/vendor/bundle
