@@ -4,6 +4,9 @@ module Polls
 
     def new
       @vote = @poll.votes.new
+      @poll.choices.each do |choice|
+        @vote.vote_details.build(choice: choice)
+      end
     end
 
     def create
@@ -22,7 +25,9 @@ module Polls
     end
 
     def vote_params
-      params.require(:vote).permit(:user_name, :comment)
+      params.require(:vote).permit(:user_name,
+                                   :comment,
+                                   vote_details_attributes: %i[choice_id status])
     end
   end
 end

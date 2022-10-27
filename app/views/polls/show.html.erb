@@ -13,6 +13,14 @@
     <%= vote.user_name %>
   </p>
   <p>
+    <% vote.vote_details.each do |vd| %>
+      <p>
+        <%= vd.choice.title %>:
+        <%= vd.status %>
+      </p>
+    <% end %>
+  </p>
+  <p>
     <%= vote.comment %>
   </p>
   <hr>
