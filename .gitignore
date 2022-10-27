@@ -6,6 +6,7 @@
 
 # Ignore bundler config.
 /.bundle
+/vendor/bundle
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -35,3 +36,4 @@
 
 /node_modules
 /config/database.yml
+/vendor/bundle
