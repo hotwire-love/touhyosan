@@ -4,4 +4,6 @@ class Vote < ApplicationRecord
   accepts_nested_attributes_for :vote_details
 
   validates :user_name, presence: true
+
+  scope :default_order, -> { order(:id) }
 end
