@@ -5,4 +5,5 @@ class Vote < ApplicationRecord
 
   validates :user_name, presence: true
 
+  scope :default_order, -> { order(:id) }
 end

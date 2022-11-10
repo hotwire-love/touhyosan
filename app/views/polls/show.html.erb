@@ -3,17 +3,17 @@
 <h2>「<%= @poll.title %>」</h2>
 
 <ul>
-  <% @poll.choices.each do |choice| %>
+  <% @poll.choices.default_order.each do |choice| %>
     <li><%= choice.title %></li>
   <% end %>
 </ul>
 
-<% @poll.votes.each do |vote| %>
+<% @poll.votes.default_order.each do |vote| %>
   <p>
     <%= vote.user_name %>
   </p>
   <p>
-    <% vote.vote_details.each do |vd| %>
+    <% vote.vote_details.choice_order.each do |vd| %>
       <p>
         <%= vd.choice.title %>:
         <%= vd.status %>
