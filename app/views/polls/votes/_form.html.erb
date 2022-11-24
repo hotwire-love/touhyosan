@@ -1,4 +1,4 @@
-<%= bootstrap_form_for [poll, vote] do |f| %>
+<%= bootstrap_form_for [poll, vote], data: {turbo_frame: "_top"} do |f| %>
   <%= f.text_field :user_name %>
 
   <%= f.fields_for :vote_details do |vdf| %>

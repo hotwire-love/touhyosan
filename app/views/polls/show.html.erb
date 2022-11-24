@@ -11,8 +11,8 @@
 
     <% @poll.votes.default_order.each do |vote| %>
       <th>
-        <%= link_to vote.user_name, edit_poll_vote_path(@poll, vote) %>
-      </th>
+        <%= link_to vote.user_name, edit_poll_vote_path(@poll, vote), data: {turbo_frame: "vote_form"} %>
+      </th><%# TODO: クリックしたらスクロールするようにする(autoscroll) %>
     <% end %>
   </tr>
 
@@ -51,4 +51,7 @@
   </tr>
 </table>
 
-<%= link_to '投票を作成', new_poll_vote_path(@poll) %>
+<%= turbo_frame_tag "vote_form" do %>
+  <%= link_to '投票を作成', new_poll_vote_path(@poll) %>
+<% end %>
+
