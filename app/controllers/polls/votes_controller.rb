@@ -18,6 +18,20 @@ module Polls
       end
     end
 
+    def edit
+      @vote = @poll.votes.find(params[:id])
+    end
+
+    def update
+      @vote = @poll.votes.find(params[:id])
+
+      if @vote.update(vote_params)
+        redirect_to poll_path(@poll), notice: '投票を更新しました'
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    end
+
     private
 
     def set_poll
@@ -27,7 +41,7 @@ module Polls
     def vote_params
       params.require(:vote).permit(:user_name,
                                    :comment,
-                                   vote_details_attributes: %i[choice_id status])
+                                   vote_details_attributes: %i[id choice_id status])
     end
   end
 end

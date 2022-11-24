@@ -11,7 +11,7 @@
 
     <% @poll.votes.default_order.each do |vote| %>
       <th>
-        <%= vote.user_name %><%# TODO: Editへのリンクにしたい %>
+        <%= link_to vote.user_name, edit_poll_vote_path(@poll, vote) %>
       </th>
     <% end %>
   </tr>
