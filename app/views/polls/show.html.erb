@@ -2,28 +2,48 @@
 
 <h2>「<%= @poll.title %>」</h2>
 
-<ul>
-  <% @poll.choices.default_order.each do |choice| %>
-    <li><%= choice.title %></li>
-  <% end %>
-</ul>
+<table class="table">
+  <tr>
+    <th>話題</th>
+    <th>○</th>
+    <th>△</th>
+    <th>×</th>
 
-<% @poll.votes.default_order.each do |vote| %>
-  <p>
-    <%= vote.user_name %>
-  </p>
-  <p>
-    <% vote.vote_details.choice_order.each do |vd| %>
-      <p>
-        <%= vd.choice.title %>:
-        <%= vd.status %>
-      </p>
+    <% @poll.votes.default_order.each do |vote| %>
+      <th>
+        <%= vote.user_name %><%# TODO: Editへのリンクにしたい %>
+      </th>
     <% end %>
-  </p>
-  <p>
-    <%= vote.comment %>
-  </p>
-  <hr>
-<% end %>
+  </tr>
+
+  <% @poll.choices.default_order.each do |choice| %>
+    <tr>
+      <th><%= choice.title %></th>
+      <td>0</td><%# TODO: 投票数を集計する %>
+      <td>0</td>
+      <td>0</td>
+
+      <% @poll.votes.default_order.each do |vote| %>
+        <td>
+          <%= vote.vote_details.find_by(choice: choice).status %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+
+  <tr>
+    <th>コメント</th>
+    <td></td>
+    <td></td>
+    <td></td>
+
+    <% @poll.votes.default_order.each do |vote| %>
+      <td>
+        <%= vote.comment %>
+      </td>
+    <% end %>
+
+  </tr>
+</table>
 
 <%= link_to '投票を作成', new_poll_vote_path(@poll) %>
