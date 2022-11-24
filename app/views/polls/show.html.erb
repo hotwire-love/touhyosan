@@ -19,10 +19,15 @@
   <% @poll.choices.default_order.each do |choice| %>
     <tr>
       <th><%= choice.title %></th>
-      <td>0</td><%# TODO: 投票数を集計する %>
-      <td>0</td>
-      <td>0</td>
-
+      <td>
+        <%= choice.vote_details.where(status: :yes).count %>
+      </td>
+      <td>
+        <%= choice.vote_details.where(status: :yes_and_no).count %>
+      </td>
+      <td>
+        <%= choice.vote_details.where(status: :no).count %>
+      </td>
       <% @poll.votes.default_order.each do |vote| %>
         <td>
           <%= vote.vote_details.find_by(choice: choice).status %>
