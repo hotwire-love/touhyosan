@@ -1,0 +1,14 @@
+<%= bootstrap_form_for [poll, vote], data: {turbo_frame: "_top"} do |f| %>
+  <%= f.text_field :user_name %>
+
+  <%= f.fields_for :vote_details do |vdf| %>
+    <p>
+      <%= vdf.object.choice.title %>
+      <%= vdf.hidden_field :choice_id %>
+      <%= vdf.collection_radio_buttons :status, VoteDetail.statuses, :first, :first %>
+    </p>
+  <% end %>
+
+  <%= f.text_area :comment, data: {controller: 'textarea-autosize'} %>
+  <%= f.submit class: 'btn btn-primary' %>
+<% end %>
