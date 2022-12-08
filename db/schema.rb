@@ -11,12 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2022_10_27_094047) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "choices", force: :cascade do |t|
     t.string "title", null: false
-    t.bigint "poll_id", null: false
+    t.integer "poll_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["poll_id"], name: "index_choices_on_poll_id"
@@ -29,8 +26,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_27_094047) do
   end
 
   create_table "vote_details", force: :cascade do |t|
-    t.bigint "vote_id", null: false
-    t.bigint "choice_id", null: false
+    t.integer "vote_id", null: false
+    t.integer "choice_id", null: false
     t.integer "status", default: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -41,7 +38,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_27_094047) do
   create_table "votes", force: :cascade do |t|
     t.string "user_name", null: false
     t.text "comment", default: "", null: false
-    t.bigint "poll_id", null: false
+    t.integer "poll_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["poll_id"], name: "index_votes_on_poll_id"
