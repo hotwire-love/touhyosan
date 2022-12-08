@@ -12,7 +12,10 @@ module Polls
     def create
       @vote = @poll.votes.new(vote_params)
       if @vote.save
-        redirect_to poll_path(@poll), notice: '投票を作成しました'
+        respond_to do |format|
+          format.html { redirect_to poll_path(@poll), notice: '投票を作成しました' }
+          format.turbo_stream
+        end
       else
         render :new, status: :unprocessable_entity
       end

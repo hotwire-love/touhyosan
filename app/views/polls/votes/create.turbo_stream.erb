@@ -1,0 +1,9 @@
+<%= turbo_stream.replace "poll_result", partial: 'polls/result' %>
+
+<%= turbo_stream.replace "vote_form" do %>
+  <%= link_to '投票を作成', new_poll_vote_path(@poll) %>
+<% end %>
+
+<%= turbo_stream.update "flash" do %>
+  投票されました。
+<% end %>

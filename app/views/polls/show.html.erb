@@ -2,54 +2,7 @@
 
 <h2>「<%= @poll.title %>」</h2>
 
-<table class="table">
-  <tr>
-    <th>話題</th>
-    <th>○</th>
-    <th>△</th>
-    <th>×</th>
-
-    <% @poll.votes.default_order.each do |vote| %>
-      <th>
-        <%= link_to vote.user_name, edit_poll_vote_path(@poll, vote), data: {turbo_frame: "vote_form"} %>
-      </th><%# TODO: クリックしたらスクロールするようにする(autoscroll) %>
-    <% end %>
-  </tr>
-
-  <% @poll.choices.default_order.each do |choice| %>
-    <tr>
-      <th><%= choice.title %></th>
-      <td>
-        <%= choice.vote_details.where(status: :yes).count %>
-      </td>
-      <td>
-        <%= choice.vote_details.where(status: :yes_and_no).count %>
-      </td>
-      <td>
-        <%= choice.vote_details.where(status: :no).count %>
-      </td>
-      <% @poll.votes.default_order.each do |vote| %>
-        <td>
-          <%= vote.vote_details.find_by(choice: choice).status %>
-        </td>
-      <% end %>
-    </tr>
-  <% end %>
-
-  <tr>
-    <th>コメント</th>
-    <td></td>
-    <td></td>
-    <td></td>
-
-    <% @poll.votes.default_order.each do |vote| %>
-      <td>
-        <%= vote.comment %>
-      </td>
-    <% end %>
-
-  </tr>
-</table>
+<%= render 'result' %>
 
 <%= turbo_frame_tag "vote_form" do %>
   <%= link_to '投票を作成', new_poll_vote_path(@poll) %>
