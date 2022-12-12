@@ -12,7 +12,11 @@ module Polls
     def create
       @vote = @poll.votes.new(vote_params)
       if @vote.save
-        redirect_to poll_path(@poll), notice: '投票を作成しました'
+        @message = "投票を作成しました"
+        respond_to do |format|
+          format.html { redirect_to poll_path(@poll), notice: @message }
+          format.turbo_stream { render 'result' }
+        end
       else
         render :new, status: :unprocessable_entity
       end
@@ -26,7 +30,12 @@ module Polls
       @vote = @poll.votes.find(params[:id])
 
       if @vote.update(vote_params)
-        redirect_to poll_path(@poll), notice: '投票を更新しました'
+        @message = "投票を更新しました"
+        respond_to do |format|
+          format.html { redirect_to poll_path(@poll), notice: @message }
+          format.turbo_stream { render 'result' }
+        end
+
       else
         render :edit, status: :unprocessable_entity
       end
