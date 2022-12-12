@@ -11,7 +11,7 @@ https://miro.com/app/board/uXjVPSNbiAc=/
 ## Requirements
 
 - Ruby 3.x.x (Gemfileに記載されているRubyバージョンを参照)
-- PostgreSQL
+- PostgreSQLを推奨、sqlite3でも可
 - yarn
 
 ## How to setup 
@@ -19,9 +19,11 @@ https://miro.com/app/board/uXjVPSNbiAc=/
 1. 自分のアカウントにリポジトリをフォークする
 1. ローカル環境にgit cloneして`cd touhyosan`
 1. DBの接続情報をローカル環境に合わせて更新する　
-   - `cp config/database.yml.sample config/database.yml`
+   - `cp config/database.yml.example config/database.yml`
    - `vi config/database.yml`
+   - `database.yml.example` にはPostgreSQLの設定例と、sqlite3の設定例が載っています
 1. `bin/setup`を実行する
+   - sqlite3環境の場合、`schema.rb`に多少diffが発生しますが、いったん無視してもらって大丈夫です
 1. `bin/dev`でサーバーを起動する
 1. http://localhost:3000 が正常に表示されればOK
 
