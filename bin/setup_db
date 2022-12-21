@@ -1,0 +1,144 @@
+#!/usr/bin/env ruby
+
+# config/database.yml.example から選択したDBMS用設定を、
+# config/database.yml に出力する。
+# 
+# Usage: bin/setup_db [postgresql|sqlite3]
+#
+# config/database.yml.example内のDMBSを指定したコメント
+# の行から、次の(DBMSを指定した)コメント行の直前までを
+# 指定されたDBMSに対応する設定とする。
+#
+# config/database.yml.exampleを解析して、DBMSの選択肢を取り出す。
+# なおDBMSの名称は全て小文字に変換した後に比較する。
+#
+# コマンドライン引数でDBMSを指定できる。
+# コマンドライン引数と一致するDBMSの設定内容をファイル出力する。
+#
+# コマンドライン引数と一致するDBMSが見つからなかった場合、または
+# コマンドラインの引数を指定しなかった場合は、
+# テキスト形式メニューで選択肢を番号で選択する。
+#
+# メニューの場合は、選択肢の番号以外を入力されたら、直ちに終了する。
+
+require "fileutils"
+
+class TextMenu
+  def initialize(choices)
+    @choices = choices
+  end
+
+  def ask
+    @choices.each_with_index do |key, index|
+      puts "#{index}: #{key}"
+    end
+    ret = $stdin.gets.chomp.to_i
+    # コンソールで間隔をあけるために空行出力
+    puts ""
+
+    ret
+  end
+end
+
+class Choiceinfo
+  attr_reader :key, :contents
+
+  def initialize(key, contents)
+    @key = key
+    @contents = contents
+  end
+
+  def make_database_yml(dest_yml_path)
+    File.write(dest_yml_path, contents.join("\n"))
+    puts "#{dest_yml_path} for #{key} is created."
+  end
+end
+
+class Dbconfig
+  def initialize(args)
+    @args = args
+    @src_db_config_path = "config/database.yml.example"
+    @dest_db_config_path = "config/database.yml"
+    @choiceinfo = nil
+    @dbconfig_choices = get_dbconfig_choices(@src_db_config_path)
+    @choice_keys = @dbconfig_choices.keys
+  end
+
+  def get_dbconfig_choices(config_path)
+    dbms = nil
+    dbconfig_choices = {}
+    File.open(config_path) do |file|
+      while (line = file.gets)
+        line.chomp!
+        # for PostgreSQL environment
+        # for sqlite3 environmen
+        if line =~ /^#\s*for\s+([^\s]+)\s+/
+          dbms = Regexp.last_match(1).downcase
+          dbconfig_choices[dbms] = []
+        end
+        dbconfig_choices[dbms] << line
+      end
+    end
+    dbconfig_choices
+  end
+
+  def confirm_make_file_request
+    ret = true
+
+    dest_exist = File.exist?(@dest_db_config_path)
+    return ret unless dest_exist
+
+    puts "You have #{@dest_db_config_path}."
+    puts "Do you want to remake #{@dest_db_config_path}?"
+    yes_or_no = %w[yes no]
+    tmenu = TextMenu.new(yes_or_no)
+    selection = tmenu.ask
+    # yes:0 no:1
+    ret = false if selection == 1
+
+    ret
+  end
+
+  def determine
+    choiceinfo = determine_from_cmdline
+    choiceinfo ||= determine_from_menu
+    choiceinfo
+  end
+
+  def determine_from_cmdline
+    choiceinfo = nil
+    if @args.size.positive?
+      dbms = @args[0].downcase
+      choice = @dbconfig_choices[dbms]
+      choiceinfo = Choiceinfo.new(dbms, choice) if choice
+    end
+    choiceinfo
+  end
+
+  def determine_from_menu
+    choiceinfo = nil
+
+    tmenu = TextMenu.new(@choice_keys)
+    selection = tmenu.ask
+    if selection < @choice_keys.size
+      dbms = @choice_keys[selection]
+      contents = @dbconfig_choices[dbms]
+      choiceinfo = Choiceinfo.new(dbms, contents) if contents
+    end
+    choiceinfo
+  end
+
+  def make_file_or_show_message(choiceinfo)
+    if choiceinfo
+      choiceinfo.make_database_yml(@dest_db_config_path)
+    else
+      puts "Your choices are #{@choice_keys.join(' or ')}."
+    end
+  end
+end
+
+dbconfig = Dbconfig.new(ARGV)
+if dbconfig.confirm_make_file_request
+  choiceinfo = dbconfig.determine
+  dbconfig.make_file_or_show_message(choiceinfo)
+end
