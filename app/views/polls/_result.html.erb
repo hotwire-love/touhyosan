@@ -1,6 +1,7 @@
 <table id="poll_result" class="table">
   <tr>
     <th>話題</th>
+    <th>スコア</th>
     <th>○</th>
     <th>△</th>
     <th>×</th>
@@ -12,9 +13,12 @@
     <% end %>
   </tr>
 
-  <% @poll.choices.default_order.each do |choice| %>
+  <% @poll.choices.sort_by(&:score).reverse.each do |choice| %>
     <tr>
       <th><%= choice.title %></th>
+      <td>
+        <%= choice.score %>
+      </td>
       <td>
         <%= choice.vote_details.where(status: :yes).count %>
       </td>
@@ -34,6 +38,7 @@
 
   <tr>
     <th>コメント</th>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>

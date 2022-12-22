@@ -8,4 +8,12 @@ class VoteDetail < ApplicationRecord
   enum :status, %i[yes yes_and_no no]
 
   scope :choice_order, -> { order(:choice_id) }
+
+  def score
+    case status
+    when 'yes' then 2
+    when 'yes_and_no' then 1
+    else 0
+    end
+  end
 end
