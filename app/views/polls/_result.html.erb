@@ -6,14 +6,14 @@
     <th>△</th>
     <th>×</th>
 
-    <% @poll.votes.default_order.each do |vote| %>
+    <% poll.votes.default_order.each do |vote| %>
       <th>
-        <%= link_to vote.user_name, edit_poll_vote_path(@poll, vote), data: {turbo_frame: "vote_form"} %>
+        <%= link_to vote.user_name, edit_poll_vote_path(poll, vote), data: {turbo_frame: "vote_form"} %>
       </th><%# TODO: クリックしたらスクロールするようにする(autoscroll) %>
     <% end %>
   </tr>
 
-  <% @poll.choices.sort_by(&:score).reverse.each do |choice| %>
+  <% poll.choices.sort_by(&:score).reverse.each do |choice| %>
     <tr>
       <th><%= choice.title %></th>
       <td>
@@ -28,7 +28,7 @@
       <td>
         <%= choice.vote_details.where(status: :no).count %>
       </td>
-      <% @poll.votes.default_order.each do |vote| %>
+      <% poll.votes.default_order.each do |vote| %>
         <td>
           <%= vote.vote_details.find_by(choice: choice).status %>
         </td>
@@ -43,7 +43,7 @@
     <td></td>
     <td></td>
 
-    <% @poll.votes.default_order.each do |vote| %>
+    <% poll.votes.default_order.each do |vote| %>
       <td>
         <%= vote.comment %>
       </td>

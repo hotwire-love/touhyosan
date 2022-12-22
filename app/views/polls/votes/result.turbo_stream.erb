@@ -1,4 +1,4 @@
-<%= turbo_stream.replace "poll_result", partial: 'polls/result' %>
+<%= turbo_stream.replace "poll_result", partial: 'polls/result', locals: { poll: @poll } %>
 
 <%= turbo_stream.update "vote_form" do %>
   <%= link_to '投票を作成', new_poll_vote_path(@poll) %>

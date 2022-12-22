@@ -1,10 +1,10 @@
+<%= turbo_stream_from @poll %>
 <h1>投票さん</h1>
 
 <h2>「<%= @poll.title %>」</h2>
 
-<%= render 'result' %>
+<%= render 'result', poll: @poll %>
 
 <%= turbo_frame_tag "vote_form" do %>
   <%= link_to '投票を作成', new_poll_vote_path(@poll) %>
 <% end %>
-
