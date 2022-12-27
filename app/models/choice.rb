@@ -5,4 +5,8 @@ class Choice < ApplicationRecord
   validates :title, presence: true
 
   scope :default_order, -> { order(:id) }
+
+  def score
+    vote_details.sum(&:score)
+  end
 end

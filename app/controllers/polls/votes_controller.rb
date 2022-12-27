@@ -13,6 +13,7 @@ module Polls
       @vote = @poll.votes.new(vote_params)
       if @vote.save
         @message = "投票を作成しました"
+        @vote.broadcast_replace_to @poll, target: "poll_result", partial: 'polls/result', locals: { poll: @poll }
         respond_to do |format|
           format.html { redirect_to poll_path(@poll), notice: @message }
           format.turbo_stream { render 'result' }
@@ -31,6 +32,7 @@ module Polls
 
       if @vote.update(vote_params)
         @message = "投票を更新しました"
+        @vote.broadcast_replace_to @poll, target: "poll_result", partial: 'polls/result', locals: { poll: @poll }
         respond_to do |format|
           format.html { redirect_to poll_path(@poll), notice: @message }
           format.turbo_stream { render 'result' }
