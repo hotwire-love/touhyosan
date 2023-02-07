@@ -8,5 +8,5 @@ test:
 
 production:
   adapter: redis
-  url: <%= ENV.fetch("REDIS_URL") %>
+  url: <%= Rails.env.production? ? ENV.fetch("REDIS_URL") : ENV["REDIS_URL"] %>
   channel_prefix: touhyosan_production
