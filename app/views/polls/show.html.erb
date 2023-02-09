@@ -5,6 +5,19 @@
 
 <%= render 'result', poll: @poll %>
 
-<%= turbo_frame_tag "vote_form" do %>
-  <%= link_to '投票を作成', new_poll_vote_path(@poll) %>
-<% end %>
+<div data-controller="modal">
+  <button type="button" class="btn btn-primary" data-action="modal#show">
+    投票を作成
+  </button>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-modal-target="modal" data-action="turbo:submit-end->modal#hide">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <%= turbo_frame_tag "vote_form", src: new_poll_vote_path(@poll), loading: :lazy, autoscroll: true, data: { autoscroll_behavior: 'start' } do %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
