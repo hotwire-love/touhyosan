@@ -10,6 +10,7 @@
             class: "btn btn-primary",
             data: { turbo_frame: "vote_form" } %>
 
+<%# TODO: layouts/application.html.erb に移動するなどして共通化したい %>
 <div data-controller="modal"
      data-action="turbo:frame-load->modal#show turbo:submit-end->modal#hide">
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-modal-target="modal">
