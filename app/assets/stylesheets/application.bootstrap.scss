@@ -2,3 +2,6 @@
 
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
+// 開発時は以下の行をコメント解除することでturbo frameが視覚化されるので便利
+// https://zenn.dev/shita1112/books/cat-hotwire-turbo/viewer/turbo-frames#turbo-frame%E3%81%AE%E8%A6%8B%E3%81%88%E3%82%8B%E5%8C%96
+// @import 'debug';
