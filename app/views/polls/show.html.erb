@@ -5,16 +5,19 @@
 
 <%= render 'result', poll: @poll %>
 
-<div data-controller="modal">
-  <button type="button" class="btn btn-primary" data-action="modal#show">
-    投票を作成
-  </button>
+<%= link_to "投票を作成",
+            new_poll_vote_path(@poll),
+            class: "btn btn-primary",
+            data: { turbo_frame: "vote_form" } %>
 
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-modal-target="modal" data-action="turbo:submit-end->modal#hide">
+<%# TODO: layouts/application.html.erb に移動するなどして共通化したい %>
+<div data-controller="modal"
+     data-action="turbo:frame-load->modal#show turbo:submit-end->modal#hide">
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-modal-target="modal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body">
-          <%= turbo_frame_tag "vote_form", src: new_poll_vote_path(@poll), loading: :lazy, autoscroll: true, data: { autoscroll_behavior: 'start' } do %>
+          <%= turbo_frame_tag "vote_form", autoscroll: true, data: { autoscroll_behavior: 'start' } do %>
           <% end %>
         </div>
       </div>
