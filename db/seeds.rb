@@ -14,12 +14,16 @@ poll.votes.create!(user_name: 'いちろー', comment: '家の用事があるた
 poll.votes.create!(user_name: 'ひーくん')
 
 # TODO: VoteDetailを作ったら登録するコードを追加
-# app/models/vote_detail.rbでのstatusに対するenum定義は以下の通り
-#  yes: 0, yes_or_no: 1, no: 2
-statuses = [ [0, 1, 2], [1, 1, 0], [0, 2, 1] ]
+# status:0 "yes", 1:"yes_and_no", 2:"no"
 
-poll.votes.zip(statuses).each do |vote, statusx|
-  poll.choices.zip(statusx).each do |choice, status|
-    vote.vote_details.create(choice: choice, status: status)
-  end
-end
+poll.votes[0].vote_details.create(choice: poll.choices[0], status: 0)
+poll.votes[0].vote_details.create(choice: poll.choices[1], status: 1)
+poll.votes[0].vote_details.create(choice: poll.choices[2], status: 2)
+
+poll.votes[1].vote_details.create(choice: poll.choices[0], status: 1)
+poll.votes[1].vote_details.create(choice: poll.choices[1], status: 1)
+poll.votes[1].vote_details.create(choice: poll.choices[2], status: 0)
+
+poll.votes[2].vote_details.create(choice: poll.choices[0], status: 0)
+poll.votes[2].vote_details.create(choice: poll.choices[1], status: 2)
+poll.votes[2].vote_details.create(choice: poll.choices[2], status: 1)
