@@ -34,6 +34,16 @@ https://miro.com/app/board/uXjVPSNbiAc=/
 
 運営メンバーがmainブランチを更新すると自動的にHerokuにデプロイされます。（運営メンバーは事前にGitHubアカウントをHerokuと連携させておくこと）
 
+## For Rails Mermaid ERD
+
+DBのER図を作成するgem(https://github.com/koedame/rails-mermaid_erd)が利用できます。
+
+以下のコマンドを実行後、mermaid_erdディレクトリの下に作成された、index.htmlをWEBブラウザで読み込んでください。
+
+`bundle exec rails mermaid_erd`
+または
+`bundle exec rake mermaid_erd`
+
 ## License 
 
 MIT License.
