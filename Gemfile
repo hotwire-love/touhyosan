@@ -27,3 +27,8 @@ end
 group :development do
   gem 'web-console'
 end
+
+group :development do
+  gem 'rails-mermaid_erd' 
+end
+

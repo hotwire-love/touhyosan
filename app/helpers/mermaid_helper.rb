@@ -1,0 +1,2 @@
+module MermaidHelper
+end
