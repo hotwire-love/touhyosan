@@ -1,0 +1,19 @@
+# docker containerを起動する場合
+#
+#  docker compose -f docker-compose.yml.redis up -d
+#
+# docker containerを終了する場合
+#
+#  docker compose -f docker-compose.yml.redis down
+#
+version: "3"
+
+services:
+  redis:
+    image: "redis:7.0"
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data"
+volumes:
+  redis-data:

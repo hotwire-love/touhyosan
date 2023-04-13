@@ -1,0 +1,54 @@
+# このPostgreSQL用のdocker-compose.ymlを利用する場合は、
+# PostgreSQL用の
+#
+# config/database.yml
+#
+# を用意し、かつそのdefaultに以下に示すようにhost, username, 
+# passwordの値を、docker-compose.ymlでの指定に合わせて、指定
+# する必要がある。
+#
+# PostgreSQLサーバとTCPで通信するため、hostにlocalhostを指定する。
+# usernameにデフォルトのユーザ名(Postgres)を利用するため、postgresを指定する。
+# passwordに環境変数POSTGRES_PASSWORDで指定するものと同じものを指定する。
+#
+# docker containerを起動する場合
+#
+#  docker compose -f docker-compose.yml.pg up -d
+#
+# docker containerを終了する場合
+#
+#  docker compose -f docker-compose.yml.pg down
+#
+# config/database.ymlを以下のように書き換える
+#
+# default: &default
+#   adapter: postgresql
+#   encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+#  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+#
+#>  host: localhost
+#>  username: postgres
+#>  password: passw@rd
+#
+
+version: "3"
+
+services:
+  db:
+    image: postgres:14
+    container_name: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - db-store:/var/lib/postgresql/data
+      # - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      # - ./db/logs:/var/log
+    environment:
+      # - POSTGRES_USER=postgres
+      # - POSTGRES_DB: postgres
+      - POSTGRES_PASSWORD=passw@rd
+      # - PGDATA /var/lib/postgresql/data
+volumes:
+  db-store:
