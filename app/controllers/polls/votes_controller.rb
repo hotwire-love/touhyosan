@@ -4,8 +4,8 @@ module Polls
 
     def new
       @vote = @poll.votes.new
-      @poll.choices.each do |choice|
-        @vote.vote_details.build(choice: choice)
+      @poll.choices.each_with_index do |choice, index|
+        @vote.vote_details.build(choice: choice, position: index)
       end
     end
 
@@ -52,7 +52,7 @@ module Polls
     def vote_params
       params.require(:vote).permit(:user_name,
                                    :comment,
-                                   vote_details_attributes: %i[id choice_id status])
+                                   vote_details_attributes: %i[id choice_id status position])
     end
   end
 end
