@@ -30,6 +30,21 @@ https://miro.com/app/board/uXjVPSNbiAc=/
 1. `bin/dev`でサーバーを起動する
 1. http://localhost:3000 が正常に表示されればOK
 
+## How to setup in docker
+1. PostgreSQL(version 14)、Redis(version 7.0)をコンテナとして用いる。
+1. "How to setup" のうち、DBの接続情報の部分を以下のように置き換えます。
+   - PostgreSQL用DBの接続情報をを用意 `cp config/database.yml.postgres.example config/database.yml`
+   - config/database.ymlのdefault部分に以下を追加
+     - host: localhost
+     - username: postgres
+     - password: passw@rd
+   - `docker compose up -d` (docker compose V2の場合)
+   - `docker-compose up -d` (docker compose V1の場合。ただしV1は2023年6月末ににサポート終了)
+   - コンテナを終了させたい場合は以下のようにコマンドを実行します。
+     - `docker compose down` (docker compose V2の場合)
+     - `docker-compose down` (docker compose V1の場合)
+
+
 ## How to deploy
 
 運営メンバーがmainブランチを更新すると自動的にHerokuにデプロイされます。（運営メンバーは事前にGitHubアカウントをHerokuと連携させておくこと）

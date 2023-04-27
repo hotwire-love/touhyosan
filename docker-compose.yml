@@ -1,6 +1,8 @@
-# このPostgreSQL用のdocker-compose.ymlを利用する場合は、
-# PostgreSQL用の
-#
+# PostgreSQL(version 14)、redis(version 7.0)をコンテナとして利用する
+# 
+# 
+# このdocker-compose.ymlを利用する場合は、PostgreSQL用の
+# 
 # config/database.yml
 #
 # を用意し、かつそのdefaultに以下に示すようにhost, username, 
@@ -10,14 +12,6 @@
 # PostgreSQLサーバとTCPで通信するため、hostにlocalhostを指定する。
 # usernameにデフォルトのユーザ名(Postgres)を利用するため、postgresを指定する。
 # passwordに環境変数POSTGRES_PASSWORDで指定するものと同じものを指定する。
-#
-# docker containerを起動する場合
-#
-#  docker compose -f docker-compose.yml.pg up -d
-#
-# docker containerを終了する場合
-#
-#  docker compose -f docker-compose.yml.pg down
 #
 # config/database.ymlを以下のように書き換える
 #
@@ -31,6 +25,15 @@
 #>  host: localhost
 #>  username: postgres
 #>  password: passw@rd
+#
+#
+# docker containerを起動する場合
+#
+#  docker compose up -d
+#
+# docker containerを終了する場合
+#
+#  docker compose down
 #
 
 version: "3"
@@ -50,5 +53,15 @@ services:
       # - POSTGRES_DB: postgres
       - POSTGRES_PASSWORD=passw@rd
       # - PGDATA /var/lib/postgresql/data
+
+  redis:
+    container_name: redis
+    # command: bash -c "redis-server --appendonly yes"
+    image: "redis:7.0"
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
 volumes:
   db-store:
+  redis-data:
