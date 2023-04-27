@@ -30,7 +30,7 @@ https://miro.com/app/board/uXjVPSNbiAc=/
 1. `bin/dev`でサーバーを起動する
 1. http://localhost:3000 が正常に表示されればOK
 
-## How to setup in docker
+## How to setup with docker
 1. PostgreSQL(version 14)、Redis(version 7.0)をコンテナとして用いる。
 1. "How to setup" のうち、DBの接続情報の部分を以下のように置き換えます。
    - PostgreSQL用DBの接続情報をを用意 `cp config/database.yml.postgres.example config/database.yml`
