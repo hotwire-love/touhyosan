@@ -5,25 +5,25 @@ Poll.destroy_all
 VoteDetail.destroy_all
 
 poll = Poll.create!(title: 'Hotwire.love Vol.1のトークテーマ')
-poll.choices.create!(title: 'jQueryからHotwireに移行するためのノウハウが知りたい')
-poll.choices.create!(title: 'Hotwireが向いている/向いていないユースケースが知りたい')
-poll.choices.create!(title: 'Hotwireとデザイナーがいい感じに協業する方法について')
+choice_1 = poll.choices.create!(title: 'jQueryからHotwireに移行するためのノウハウが知りたい')
+choice_2 = poll.choices.create!(title: 'Hotwireが向いている/向いていないユースケースが知りたい')
+choice_3 = poll.choices.create!(title: 'Hotwireとデザイナーがいい感じに協業する方法について')
 
-poll.votes.create!(user_name: 'いとう', comment: '易しめのトピックだと嬉しい')
-poll.votes.create!(user_name: 'いちろー', comment: '家の用事があるため19時で抜けます')
-poll.votes.create!(user_name: 'ひーくん')
 
 # TODO: VoteDetailを作ったら登録するコードを追加
 # status:0 "yes", 1:"yes_and_no", 2:"no"
 
-poll.votes[0].vote_details.create(choice: poll.choices[0], status: 0)
-poll.votes[0].vote_details.create(choice: poll.choices[1], status: 1)
-poll.votes[0].vote_details.create(choice: poll.choices[2], status: 2)
+vote = poll.votes.create!(user_name: 'いとう', comment: '易しめのトピックだと嬉しい')
+vote.vote_details.create(choice: choice_1, status: :yes)
+vote.vote_details.create(choice: choice_2, status: :yes_and_no)
+vote.vote_details.create(choice: choice_3, status: :no)
 
-poll.votes[1].vote_details.create(choice: poll.choices[0], status: 1)
-poll.votes[1].vote_details.create(choice: poll.choices[1], status: 1)
-poll.votes[1].vote_details.create(choice: poll.choices[2], status: 0)
+vote = poll.votes.create!(user_name: 'いちろー', comment: '家の用事があるため19時で抜けます')
+vote.vote_details.create(choice: choice_1, status: :yes)
+vote.vote_details.create(choice: choice_2, status: :yes_and_no)
+vote.vote_details.create(choice: choice_3, status: :no)
 
-poll.votes[2].vote_details.create(choice: poll.choices[0], status: 0)
-poll.votes[2].vote_details.create(choice: poll.choices[1], status: 2)
-poll.votes[2].vote_details.create(choice: poll.choices[2], status: 1)
+vote = poll.votes.create!(user_name: 'ひーくん')
+vote.vote_details.create(choice: choice_1, status: :yes)
+vote.vote_details.create(choice: choice_2, status: :yes_and_no)
+vote.vote_details.create(choice: choice_3, status: :no)
