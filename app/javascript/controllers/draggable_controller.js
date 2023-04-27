@@ -11,5 +11,11 @@ export default class extends Controller {
         constrainDimensions: true,
       },
     });
+
+    sortable.on('sortable:stop', this.onStop);
+  }
+
+  onStop(e) {
+    console.log(e)
   }
 }
