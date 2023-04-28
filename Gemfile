@@ -19,6 +19,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'bootstrap_form'
 
+# TODO: This gem can be removed with Rails 7.0.4.4 or 7.0.5
 gem 'warning'
 
 group :development, :test do
