@@ -7,6 +7,8 @@ class Choice < ApplicationRecord
   scope :default_order, -> { order(:id) }
 
   def score
-    vote_details.sum(&:score)
+    vote_details.sum do |vd|
+      vd.position || 100 # TODO: nullが入っている場合もあるので
+    end
   end
 end

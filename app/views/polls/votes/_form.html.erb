@@ -6,6 +6,7 @@
       <li class="StackedListItem--isDraggable">
         <%= vdf.object.choice.title %>
         <%= vdf.hidden_field :choice_id %>
+        <%= vdf.hidden_field :position, 'data-draggable-target': 'position' %>
       </li>
     <% end %>
   </ul>
