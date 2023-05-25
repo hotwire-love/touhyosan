@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import AutosubmitController from "./autosubmit_controller"
+application.register("autosubmit", AutosubmitController)
+
 import DraggableController from "./draggable_controller"
 application.register("draggable", DraggableController)
 

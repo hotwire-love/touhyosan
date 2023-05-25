@@ -16,5 +16,7 @@ export default class extends Controller {
     this.positionTargets.forEach((element, index) => {
       element.value = index
     })
+
+    this.dispatch('sorted')
   }
 }
