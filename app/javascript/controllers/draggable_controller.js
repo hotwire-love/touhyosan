@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import { Sortable } from '@shopify/draggable'
+import Sortable from 'sortablejs'
 
 // Connects to data-controller="draggable"
 export default class extends Controller {
@@ -8,22 +8,13 @@ export default class extends Controller {
   connect() {
     const sortable = new Sortable(this.element, {
       draggable: '.StackedListItem--isDraggable',
-      mirror: {
-        appendTo: this.element,
-        constrainDimensions: true,
-      },
+      onUpdate: this.onStop.bind(this),
     });
-
-    sortable.on('sortable:stop', this.onStop.bind(this));
   }
 
-  onStop(e) {
-    console.log(e)
-    // TODO: DOMが確定する前にイベントが発生するため一時的にsetTimeoutしてる
-    setTimeout(() => {
-      this.positionTargets.forEach((element, index) => {
-        element.value = index
-      })
-    }, 0)
+  onStop() {
+    this.positionTargets.forEach((element, index) => {
+      element.value = index
+    })
   }
 }
