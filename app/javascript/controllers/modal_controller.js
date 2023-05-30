@@ -17,9 +17,6 @@ export default class extends Controller {
   }
 
   hide(e) {
-    console.log('モーダルの hide イベント')
-    console.log(e)
-
     if (e.detail.success && e.detail.formSubmission.submitter) {
       this.myModal.hide();
     }
