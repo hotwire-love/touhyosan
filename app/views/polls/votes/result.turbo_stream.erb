@@ -5,5 +5,6 @@
   <%= turbo_stream.update "flash" do %>
     <%= @message %>
   <% end %>
-  <%# TODO: else で form を差し替えたほうがよいかも %>
+<% else %>
+  <%= turbo_stream.update "vote_form", partial: 'polls/votes/form', locals: { poll: @poll, vote: @vote } %>
 <% end %>

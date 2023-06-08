@@ -3,8 +3,7 @@ class Vote < ApplicationRecord
   has_many :vote_details, -> { order(:position) }, dependent: :destroy
   accepts_nested_attributes_for :vote_details
 
-  # TODO: ランダムなデフォルト名にしたい
-  attribute :user_name, :string, default: 'ななしさん'
+  attribute :user_name, :string, default: -> { Faker::Fantasy::Tolkien.character }
 
   validates :user_name, presence: true
 
