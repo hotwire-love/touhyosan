@@ -1,13 +1,17 @@
-<%= bootstrap_form_for [poll, vote] do |f| %>
+<h1>「<%= poll.title %>」に投票</h1>
+
+<%= bootstrap_form_for [poll, vote], data: { controller: 'autosubmit', action: 'draggable:sorted->autosubmit#submit' } do |f| %>
   <%= f.text_field :user_name %>
 
-  <%= f.fields_for :vote_details do |vdf| %>
-    <p>
-      <%= vdf.object.choice.title %>
-      <%= vdf.hidden_field :choice_id %>
-      <%= vdf.collection_radio_buttons :status, VoteDetail.statuses, :first, :first %>
-    </p>
-  <% end %>
+  <ul data-controller="draggable">
+    <%= f.fields_for :vote_details do |vdf| %>
+      <li class="StackedListItem--isDraggable">
+        <%= vdf.object.choice.title %>
+        <%= vdf.hidden_field :choice_id %>
+        <%= vdf.hidden_field :position, 'data-draggable-target': 'position' %>
+      </li>
+    <% end %>
+  </ul>
 
   <%= f.text_area :comment, data: {controller: 'textarea-autosize'} %>
   <%= f.submit class: 'btn btn-primary' %>

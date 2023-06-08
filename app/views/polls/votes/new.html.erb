@@ -1,5 +1,3 @@
 <%= turbo_frame_tag "vote_form" do %>
-  <h1>「<%= @poll.title %>」に投票</h1>
-
   <%= render "form", poll: @poll, vote: @vote %>
 <% end %>

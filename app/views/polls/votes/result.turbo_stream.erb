@@ -1,7 +1,10 @@
 <%= turbo_stream.replace "poll_result", partial: 'polls/result', locals: { poll: @poll } %>
 
-<%= turbo_stream.update "vote_form" %>
-
-<%= turbo_stream.update "flash" do %>
-  <%= @message %>
+<% if params[:commit].present? %>
+  <%= turbo_stream.update "vote_form" %>
+  <%= turbo_stream.update "flash" do %>
+    <%= @message %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.update "vote_form", partial: 'polls/votes/form', locals: { poll: @poll, vote: @vote } %>
 <% end %>

@@ -4,6 +4,12 @@
 
 import { application } from "./application"
 
+import AutosubmitController from "./autosubmit_controller"
+application.register("autosubmit", AutosubmitController)
+
+import DraggableController from "./draggable_controller"
+application.register("draggable", DraggableController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 

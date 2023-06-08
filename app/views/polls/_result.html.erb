@@ -2,9 +2,6 @@
   <tr>
     <th>話題</th>
     <th>スコア</th>
-    <th>○</th>
-    <th>△</th>
-    <th>×</th>
 
     <% poll.votes.default_order.each do |vote| %>
       <th>
@@ -13,24 +10,15 @@
     <% end %>
   </tr>
 
-  <% poll.choices.sort_by(&:score).reverse.each do |choice| %>
+  <% poll.choices.sort_by(&:score).each do |choice| %>
     <tr>
       <th><%= choice.title %></th>
       <td>
         <%= choice.score %>
       </td>
-      <td>
-        <%= choice.vote_details.where(status: :yes).count %>
-      </td>
-      <td>
-        <%= choice.vote_details.where(status: :yes_and_no).count %>
-      </td>
-      <td>
-        <%= choice.vote_details.where(status: :no).count %>
-      </td>
       <% poll.votes.default_order.each do |vote| %>
         <td>
-          <%= vote.vote_details.find_by(choice: choice).status %>
+          <%= vote.vote_details.find_by(choice: choice).position %>
         </td>
       <% end %>
     </tr>
@@ -38,9 +26,6 @@
 
   <tr>
     <th>コメント</th>
-    <td></td>
-    <td></td>
-    <td></td>
     <td></td>
 
     <% poll.votes.default_order.each do |vote| %>
