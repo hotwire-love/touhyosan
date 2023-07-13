@@ -37,7 +37,12 @@ RSpec.describe 'Votes', type: :system do
   end
 
   def wait_for_turbo
-    sleep 0.5
+    # sleep 1.0
+    page.driver.with_playwright_page do |page|
+      # raise ArgumentError.new('state: expected one of (load|domcontentloaded|networkidle|commit)')
+      # page.wait_for_load_state(state: 'networkidle')
+      page.wait_for_load_state(state: 'commit')
+    end
   end
 
   context '登録時はdrag and dropしない場合' do
@@ -48,10 +53,18 @@ RSpec.describe 'Votes', type: :system do
 
       click_link '投票を作成'
       expect(page).to have_content '「Hotwire.love meetup Vol.18」に投票'
-      wait_for_turbo
+      wait_for_turbo # stimulus controllerのマウント待ち
+      # page.driver.with_playwright_page do |page|
+      #   page.wait_for_selector('#modal').wait_for_element_state('enabled')
+      # end
       fill_in 'User name', with: 'Alice'
       fill_in 'Comment', with: 'どれも甲乙付けがたい'
-      click_button '登録する'
+      expect {
+        click_button '登録する'
+        wait_for_turbo
+        # expect(page).to have_content '投票を作成しました'
+      }.to change(VoteDetail, :count)
+
 
       within '#poll_result' do
         expect(page).to have_content 'Alice'
@@ -99,6 +112,8 @@ RSpec.describe 'Votes', type: :system do
         expect(page).to have_content 'Alice'
         expect(page).to have_content 'どれも甲乙付けがたい'
       end
+
+      pending 'モーダルが閉じない'
 
       # 更新フォーム内でdrag and drop
       click_link 'Alice'

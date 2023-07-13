@@ -43,3 +43,6 @@
 /config/database.yml
 
 .idea
+/test-results/
+/playwright-report/
+/playwright/.cache/
