@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Votes', type: :system do
-  example '話したいネタを作成して、投票ができる' do
+  example '話したいネタを作成して、投票ができる', js: true do
     visit root_path
 
     fill_in 'Title', with: 'Hotwire.love meetup Vol.18'
