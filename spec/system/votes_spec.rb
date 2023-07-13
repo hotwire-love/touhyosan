@@ -29,6 +29,13 @@ RSpec.describe 'Votes', type: :system do
     end
   end
 
+  def drag_choice(from:, to:)
+    choices = all('.StackedListItem--isDraggable')
+    sleep 0.5
+    choices[from].drag_to choices[to]
+    sleep 0.5
+  end
+
   context '登録時はdrag and dropしない場合' do
     example '登録するボタンでcreateできる', js: true do
       create_choices
@@ -67,27 +74,34 @@ RSpec.describe 'Votes', type: :system do
 
       assert_ranking('Turboについて', 'Stimulusについて', 'Stradaについて')
 
+      # 登録フォーム内でdrag and drop
       click_link '投票を作成'
       expect(page).to have_content '「Hotwire.love meetup Vol.18」に投票'
       fill_in 'User name', with: 'Alice'
       fill_in 'Comment', with: 'どれも甲乙付けがたい'
 
-      choices = all('.StackedListItem--isDraggable')
-      expect(choices.size).to eq 3
-      sleep 0.5
-      choices[0].drag_to choices[1]
-      sleep 0.5
+      drag_choice(from: 0, to: 1)
       within '#poll_result' do
         expect(page).to have_content 'Alice'
         expect(page).to have_content 'どれも甲乙付けがたい'
       end
+      assert_ranking('Stimulusについて', 'Turboについて', 'Stradaについて')
       click_button '更新する'
 
       within '#poll_result' do
         expect(page).to have_content 'Alice'
         expect(page).to have_content 'どれも甲乙付けがたい'
       end
-      assert_ranking('Stimulusについて', 'Turboについて', 'Stradaについて')
+
+      # 更新フォーム内でdrag and drop
+      click_link 'Alice'
+      expect(page).to have_content '「Hotwire.love meetup Vol.18」に投票'
+
+      drag_choice(from: 1, to: 2)
+      assert_ranking('Stimulusについて', 'Stradaについて', 'Turboについて')
+
+      drag_choice(from: 0, to: 1)
+      assert_ranking('Stradaについて', 'Stimulusについて', 'Turboについて')
     end
   end
 end
