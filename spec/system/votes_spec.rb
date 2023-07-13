@@ -17,5 +17,17 @@ RSpec.describe 'Votes', type: :system do
       expect(page).to have_content 'Stimulusについて'
       expect(page).to have_content 'Stradaについて'
     end
+
+    click_link '投票を作成'
+    expect(page).to have_content '「Hotwire.love meetup Vol.18」に投票'
+    fill_in 'User name', with: 'Alice'
+    # TODO: drag and dropする
+    fill_in 'Comment', with: 'どれも甲乙付けがたい'
+    click_button '登録する'
+
+    within '#poll_result' do
+      expect(page).to have_content 'Alice'
+      expect(page).to have_content 'どれも甲乙付けがたい'
+    end
   end
 end
