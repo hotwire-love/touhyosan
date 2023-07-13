@@ -47,7 +47,17 @@ RSpec.describe 'Votes', type: :system do
       end
       assert_ranking('Turboについて', 'Stimulusについて', 'Stradaについて')
 
-      # TODO: 更新フォームを開く
+      click_link 'Alice'
+      expect(page).to have_content '「Hotwire.love meetup Vol.18」に投票'
+      fill_in 'User name', with: 'ありす'
+      fill_in 'Comment', with: '迷うわ〜'
+      click_button '更新する'
+
+      within '#poll_result' do
+        expect(page).to have_content 'ありす'
+        expect(page).to have_content '迷うわ〜'
+      end
+      assert_ranking('Turboについて', 'Stimulusについて', 'Stradaについて')
     end
   end
 
