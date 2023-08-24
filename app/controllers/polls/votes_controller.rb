@@ -12,12 +12,16 @@ module Polls
     def create
       @vote = @poll.votes.new(vote_params)
       if @vote.save
-        flash.now.notice = "投票を作成しました"
+        @message = "投票を作成しました"
 
         @vote.broadcast_replace_to @poll, target: "poll_result", partial: 'polls/result', locals: { poll: @poll }
+
         respond_to do |format|
           format.html { redirect_to poll_path(@poll), notice: @message }
-          format.turbo_stream { render 'result', layout: 'application' }
+          format.turbo_stream {
+            flash.now.notice = @message
+            render 'result'
+          }
         end
       else
         render :new, status: :unprocessable_entity
@@ -33,7 +37,7 @@ module Polls
 
       if @vote.update(vote_params)
         @message = "投票を更新しました"
-        @vote.broadcast_replace_to @poll, target: "poll_result", partial: 'polls/result', locals: { poll: @poll }
+        # @vote.broadcast_replace_to @poll, target: "poll_result", partial: 'polls/result', locals: { poll: @poll }
         respond_to do |format|
           format.html { redirect_to poll_path(@poll), notice: @message }
           format.turbo_stream { render 'result' }
