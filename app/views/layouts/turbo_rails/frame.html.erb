@@ -1,0 +1,11 @@
+<html>
+  <head>
+    <%= yield :head %>
+  </head>
+  <body>
+    <%# TODO: turbo_frame_request, turbo_stream で flash メッセージを layout の指定なしに出力したい %>
+    <%= render 'toast' %>
+
+    <%= yield %>
+  </body>
+</html>
