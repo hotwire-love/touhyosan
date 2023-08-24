@@ -2,9 +2,6 @@
 
 <% if params[:commit].present? %>
   <%= turbo_stream.update "vote_form" %>
-  <%= turbo_stream.update "flash" do %>
-    <%= render 'toast' %>
-  <% end %>
 <% else %>
   <%= turbo_stream.update "vote_form", partial: 'polls/votes/form', locals: { poll: @poll, vote: @vote } %>
 <% end %>

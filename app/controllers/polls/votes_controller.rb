@@ -17,7 +17,7 @@ module Polls
         @vote.broadcast_replace_to @poll, target: "poll_result", partial: 'polls/result', locals: { poll: @poll }
         respond_to do |format|
           format.html { redirect_to poll_path(@poll), notice: @message }
-          format.turbo_stream { render 'result' }
+          format.turbo_stream { render 'result', layout: 'application' }
         end
       else
         render :new, status: :unprocessable_entity
