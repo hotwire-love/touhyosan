@@ -1,0 +1,22 @@
+<%# SEE: https://zenn.dev/shita1112/books/cat-hotwire-turbo/viewer/tutorial-3#flash%E3%81%ABtoast%E3%82%92%E5%88%A9%E7%94%A8%E3%81%99%E3%82%8B %>
+<%# 成功時のToast %>
+<% if notice %>
+  <div class="mb-2 toast hide border-primary" data-controller="toast">
+    <div class="toast-header text-primary">
+      <strong class="me-auto">SUCCESS</strong>
+      <button class="btn-close" data-bs-dismiss="toast">
+    </div>
+    <div class="toast-body"><%= notice %></div>
+  </div>
+<% end %>
+
+<%# エラー時のToast %>
+<% if alert %>
+  <div class="mb-2 toast hide border-danger" data-controller="toast">
+    <div class="toast-header text-danger">
+      <strong class="me-auto">ERROR</strong>
+      <button class="btn-close" data-bs-dismiss="toast">
+    </div>
+    <div class="toast-body"><%= alert %></div>
+  </div>
+<% end %>
