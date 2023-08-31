@@ -18,3 +18,6 @@ application.register("modal", ModalController)
 
 import TextareaAutosizeController from "./textarea_autosize_controller"
 application.register("textarea-autosize", TextareaAutosizeController)
+
+import ToastController from "./toast_controller"
+application.register("toast", ToastController)
