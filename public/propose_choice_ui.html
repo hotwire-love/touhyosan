@@ -1,0 +1,125 @@
+<html>
+
+<head>
+  <style>
+    .form_choices {
+      border: medium solid blue;
+    }
+
+    .form_candidate {
+      border: medium solid purple;
+    }
+
+    .form_proposing {
+      border: medium solid pink;
+    }
+
+    .wrap {
+      display: flex;
+      flex-flow: row;
+    }
+
+    .wrap_col {
+      display: flex;
+      flex-flow: column;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Hotwire.love Vol.1のトークテーマ</h1>
+  <div class="wrap">
+    <turbo-frame id="choice-list">
+      <form id="choices" class="form_choices">
+        <div class="wrap_col">
+          <div>
+            <textarea class="form-control" name="poll[choices_text]" id="poll_choices_text" cols="40"
+              style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 100px;">[いちろー]Hotwireが向いている/向いていないユースケースが知りたい
+[いとー]jQueryからHotwireに移行するためのノウハウが知りたい
+          </textarea>
+          </div>
+        </div>
+        <input type="submit" name="commit" value="登録する" class="">
+      </form>
+    </turbo-frame>
+    <turbo-frame id="candidate-list">
+      <form id="candidates" class="form_candidate">
+        <div class="wrap_col">
+          <div>
+            <input type="checkbox" checked="checked" name="いとー_1"
+              value="[いとー]jQueryからHotwireに移行するためのノウハウが知りたい">[いとー]jQueryからHotwireに移行するためのノウハウが知りたい
+          </div>
+          <div>
+            <input type="checkbox" checked="checked" name="いちろー_1"
+              value="[いちろー]Hotwireが向いている/向いていないユースケースが知りたい">[いちろー]Hotwireが向いている/向いていないユースケースが知りたい
+          </div>
+          <div>
+            <input type="checkbox" name="ひーくん_1"
+              value="[ひーくん]Hotwireとデザイナーがいい感じに協業する方法について">[ひーくん]Hotwireとデザイナーがいい感じに協業する方法について
+          </div>
+        </div>
+      </form>
+    </turbo-frame>
+
+    <form id="proposing" class="form_proposing">
+      <div class="wrap_col">
+        <div class="mb-3">
+          <label class="form-label" for="user_name">User name: <input type="text" name="user_name" value="いとー"></label>
+
+        </div>
+        <div>
+          <label class="form-label" for="poll_choices_text">Choices text</label>
+          <textarea class="form-control" name="poll[choices_text]" id="poll_choices_text" cols="40"
+            style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 62px;">jQueryからHotwireに移行するためのノウハウが知りたい
+          </textarea>
+        </div>
+      </div>
+      <input type="submit" name="commit" value="提案する" class="">
+    </form>
+  </div>
+  <ul>仕様を考えた前提
+    <li>以下で示した仕様は、choiceの提案を集めることに絞って考えました。</li>
+    <li>紫線のフォームのチェックボックスと、User nameを先頭につけるのは、提案されたchoice textの見落としを防止することが目的です。</li>
+    <li>変更が可能な部分は青線のフォームのテキストエリア内に限定しています。</li>
+    <li>choice textの並び替え、マージ、削除、修正はPoll管理者の責任で行うものとしています。</li>
+    <li>Poll管理者が適切にchoice textを決定できるように、提案者との何らかの連濁手段を持っているものとしています。</li>
+  </ul>
+  <ul>説明
+    <li>現在のtouhyosanはルートにアクセスするとpolls#newにルーティングされます。</li>
+    <li>ここでTitleのみを指定し、choices textを指定しなかった場合、pollを作成するのではなく、例えば/prepolls/1にリダイレクトします。</li>
+    <li>PrepollはPollのタイトルのみを持ちます。Prepollが作成された時点で、対応するPollは作成されません。</li>
+    <li>Prepollは複数人が協力してchoices textを決めるために存在します。</li>
+    <li>具体的には、作成したPrepollを特定するURLに協力者がアクセスして、choices textを作成します。</li>
+    <li>作成されたPrepollのURLにアクセスすると、このページの上部に示すような3つのフォームが表示されます。</li>
+    <li>各フォームの枠の色は今回の説明のためにのみつけたものです。</li>
+    <ul>ピンク色線のフォーム(id="proposing")
+      <li>アクセスした人が提案するchoice_textを入力します。</li>
+      <li>「提案する」ボタンを押すと、テキストエリア内の各行ごとに先頭にUser nameｗの値を[]で括ったものをくっつけたものを、User name毎にグルーピングして、紫線のフォームに表示します。</li>
+    </ul>
+    <ui>紫線のフォーム(id="candidates)
+      <li>turbo-frame(id="candidate-list")内に存在します。</li>
+      <li>アクセスする人すべてに同一の内容が表示されます。</li>
+      <li>ピンク色線のフォームの「提案する」ボタンが押される毎に、表示内容が更新されます。</li>
+      <li>チェックボックスをチェックしたもののみが、青線のフォームのテキストエリアの最下部に追加されます。</li>
+      <li>チェックボックスをチェックしたら、そのチェックボックスの行は操作不能になります（チェック状態を解除できません）。</li>
+    </ui>
+
+    <ul>青線のフォーム(id="choices")
+      <li>touhyosanのルートで表示されるフォームを同じです。「登録する」ボタンを押すと、テキストエリア内の各行のテキストをchoicestextとしたPollを作成します。</li>
+      <li>turbo-frame(id="choice-list")内に存在します。</li>
+      <li>アクセスする人すべてに同一の内容が表示されます。</li>
+      <li>「登録する」ボタンを押したら、テキストエリア内の各行の先頭から[User name]を削除したものを</li>
+    </ul>
+
+    <li>紫線のフォームと、青線のフォームは、特定の1人のみが操作するように運用することを想定しています。</li>
+    <li>具体的にはPrepollを作成して、PrepollのURLを他の人に知らせる人を想定します。以下ではその人をPoll管理者と呼びます。</li>
+    <li>提案の修正や、取り下げがある場合は、別手段でPoll管理者に連絡し、Poll管理者が青線のフォームのテキストエリアで削除、修正するものとします。</li>
+    <li>紫線のフォームでチェックしないという手段もあります。</li>
+  </ul>
+  <ul>補足
+    <li>choice textの並び替え、グルーピングをChatGPTなどのAIに提案させてもいいかもしれません。</li>
+    <li>提案テーマと提案者が密な関係があるアンケートの場合は、テーマと提案者の紐づけを外さないほうがいいかもされません。</li>
+  </ul>
+</body>
+
+</html>

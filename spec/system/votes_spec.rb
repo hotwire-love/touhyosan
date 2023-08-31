@@ -53,6 +53,8 @@ RSpec.describe 'Votes', type: :system do
       fill_in 'Comment', with: 'どれも甲乙付けがたい'
       click_button '登録する'
 
+      expect(page).to have_content '投票を作成しました'
+
       within '#poll_result' do
         expect(page).to have_content 'Alice'
         expect(page).to have_content 'どれも甲乙付けがたい'
@@ -65,6 +67,8 @@ RSpec.describe 'Votes', type: :system do
       fill_in 'User name', with: 'ありす'
       fill_in 'Comment', with: '迷うわ〜'
       click_button '更新する'
+
+      expect(page).to have_content '投票を更新しました'
 
       within '#poll_result' do
         expect(page).to have_content 'ありす'
