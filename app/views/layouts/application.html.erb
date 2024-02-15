@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Touhyosan</title>
+    <title>投票さん by Hotwire.love</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= favicon_link_tag 'favicon.ico' %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -15,6 +16,11 @@
       <%= notice %>
     </div>
     <div class="p-5">
+      <h1>
+        <%= image_tag 'touhyosan.jpg', size: '48x48' %>
+        投票さん
+      </h1>
+
       <%= yield %>
     </div>
   </body>
