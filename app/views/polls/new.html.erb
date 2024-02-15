@@ -1,5 +1,3 @@
-<h1>投票さん</h1>
-
 <%= bootstrap_form_for @poll do |f| %>
   <%= f.text_field :title %>
   <%= f.text_area :choices_text, data: {controller: 'textarea-autosize'} %>
