@@ -1,0 +1,41 @@
+<%= turbo_stream_from @pre_poll %>
+<% if @current_editor %>
+  <%= turbo_stream_from "editor" %>
+<% else %>
+  <<%= turbo_stream_from "proposer" %>
+% end %>
+
+<h1>投票さん</h1>
+
+<h2>「<%= @pre_poll.title %>」</h2>
+
+<div class="container text-centor">
+  <div class="row">
+    <div class="col-md-4">
+      <p style="color: green"><%= notice %></p>
+        <%= turbo_frame_tag "editor_form", autoscroll: true, data: { autoscroll_behavior: 'start' } do %>
+        <%= render "pre_polls/form", pre_poll: @pre_poll %>
+      <% end %>
+    </div>
+
+    <div class="col-md-6">
+    　<div class="container">
+        <%= render  'pre_polls/result', pre_poll: @pre_poll %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-controller="modal"
+     data-action="turbo:frame-load->modal#show turbo:submit-end->modal#hide">
+  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true" data-modal-target="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <%= turbo_frame_tag "proposal_form", autoscroll: true, data: { autoscroll_behavior: 'start' } do %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

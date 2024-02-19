@@ -12,14 +12,14 @@ module Polls
     def create
       @vote = @poll.votes.new(vote_params)
       if @vote.save
-        @vote.broadcast_replace_to @poll, target: "poll_result", partial: 'polls/result', locals: { poll: @poll }
+        @vote.broadcast_replace_to @poll, target: "poll_result", partial: "polls/result", locals: { poll: @poll }
 
         message = "投票を作成しました"
         respond_to do |format|
           format.html { redirect_to poll_path(@poll), notice: message }
           format.turbo_stream {
             flash.now.notice = message
-            render 'result'
+            render "result"
           }
         end
       else
@@ -35,17 +35,16 @@ module Polls
       @vote = @poll.votes.find(params[:id])
 
       if @vote.update(vote_params)
-        @vote.broadcast_replace_to @poll, target: "poll_result", partial: 'polls/result', locals: { poll: @poll }
+        @vote.broadcast_replace_to @poll, target: "poll_result", partial: "polls/result", locals: { poll: @poll }
 
         message = "投票を更新しました"
         respond_to do |format|
           format.html { redirect_to poll_path(@poll), notice: message }
           format.turbo_stream {
             flash.now.notice = message
-            render 'result'
+            render "result"
           }
         end
-
       else
         render :edit, status: :unprocessable_entity
       end

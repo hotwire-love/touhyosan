@@ -1,0 +1,8 @@
+<h1>「<%= pre_poll.title %>」に提案</h1>
+
+<%= bootstrap_form_for [pre_poll, proposal]  do |f| %>
+  <%= f.text_field :user_name %>
+
+  <%= f.text_area :content, data: {controller: 'textarea-autosize'} %>
+  <%= f.submit class: 'btn btn-primary' %>
+<% end %>

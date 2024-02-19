@@ -11,8 +11,8 @@ class VoteDetail < ApplicationRecord
 
   def score
     case status
-    when 'yes' then 2
-    when 'yes_and_no' then 1
+    when "yes" then 2
+    when "yes_and_no" then 1
     else 0
     end
   end

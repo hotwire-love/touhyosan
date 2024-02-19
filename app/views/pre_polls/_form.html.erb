@@ -1,0 +1,5 @@
+<%= bootstrap_form_with model: pre_poll, url: accept_pre_poll_proposals_path(pre_poll) do |f| %>
+  <%= f.text_area :content, data: {controller: 'textarea-autosize'}, method: :get %>
+  <%= f.submit value: "Create", class: 'btn btn-primary' , opts: {id: pre_poll.id }%>
+  <%= f.submit value: "Accept", class: 'btn btn-secondary', opts: {id: pre_poll.id } %>
+<% end %>

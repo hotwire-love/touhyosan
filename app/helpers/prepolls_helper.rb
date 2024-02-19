@@ -1,0 +1,2 @@
+module PrepollsHelper
+end
