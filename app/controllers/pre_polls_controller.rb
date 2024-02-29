@@ -3,39 +3,58 @@ class PrePollsController < ApplicationController
 
   # GET /pre_polls/1 or /pre_polls/1.json
   def show
+    render :all, locals: { pre_poll: @pre_poll, editor_id: @pre_poll.editor_id }
     #
+=begin
+    respond_to do |format|
+      format.html {
+        render "all.html.erb", locals: { pre_poll: @pre_poll, editor_id: @pre_poll.editor_id }
+      }
+      format.turbo_stream {
+        render "all.html.erb", locals: { pre_poll: @pre_poll, editor_id: @pre_poll.editor_id }
+      }
+      format.json { render "all.erb", status: :ok, location: @poll }
+    end
+=end
   end
 
   def edit
-    render :edit, locals: { pre_poll: @pre_poll, editor_id: @pre_poll.editor_id }
+    render :all, locals: { pre_poll: @pre_poll, editor_id: @pre_poll.editor_id }
   end
 
   # PATCH/PUT /pre_polls/1 or /pre_polls/1.json
   def update
     if @pre_poll.update(pre_poll_params)
-      btn_name = @params[:btn]
-      case btn_name
-      when "Create" | "CreateAll"
+      btn_name = pre_poll_params["btn"]
+      btn_name2 = params["pre_poll"]["btn"]
+      btn_name3 = params["btn"]
+      if btn_name3 == "Create" || btn_name3 == "CreateAll"
         @poll = create_poll(@pre_poll, pre_poll_params[:content])
-        if btn_name == "CreateAll"
+        if btn_name3 == "CreateAll"
           @pre_poll.proposals.map { |proposal|
             create_votes(@poll, proposal)
           }
         end
         if @poll.save
-          broadcast_replace_to "proposer", target: "redirect_event_frame", partial: "redirect", locals: {poll: @poll}
+          @pre_poll.broadcast_replace_to "proposer", target: "redirect_event_frame", partial: "pre_polls/redirect", locals: { poll: @poll }
 
-          respond_to do |format|
-            format.html { 
-              redirect_to poll_path(@poll), notice: "Poll was successfully updated." 
-            }
-            format.json { render :show, status: :ok, location: @poll }
-          end
+          redirect_to poll_path(@poll), notice: "Poll was successfully updated."
         else
           redirect_to root_path, status: :unprocessable_entity
         end
+      else
+        puts "btn_name: #{btn_name}|"
+        puts "btn_name2: #{btn_name2}|"
+        puts "params: #{params}|"
+        puts "params[pre_poll]: #{params["pre_poll"]}|"
+        puts "params[btn]: #{params["btn"]}|"
+        puts "pre_poll_params: #{pre_poll_params}|"
+        render :debug, locals: { btn_name: btn_name }
+        # raise
+        # redirect_to root_path, status: :unprocessable_entity
       end
     else
+      raise
       respond_to do |format|
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @pre_poll.errors, status: :unprocessable_entity }
@@ -52,27 +71,27 @@ class PrePollsController < ApplicationController
           choiceitem.update(accepted: true)
           title = choiceitem.title
           if !(title.nil? || title.empty?)
-            title = title.strip 
+            title = title.strip
             array << title if title.size.positive?
           end
         end
       end
       array
-    }.flatten.select{ |line| !(line.nil? || line.empty?) }
+    }.flatten.select { |line| !(line.nil? || line.empty?) }
     content = @pre_poll.content
-    if !(content.nil? || content.empty? || content.strip.size.zero? )
+    if !(content.nil? || content.empty? || content.strip.size.zero?)
       content += ("\n" + lines.join("\n"))
     else
       content = lines.join("\n")
     end
     respond_to do |format|
       if @pre_poll.update(content: content)
-        format.html { render :edit }
-        format.turbo_stream { render :form_tf }
+        format.html { render :all }
+        format.turbo_stream { render :form }
         format.json { render :show, status: :ok, location: @pre_poll }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.turbo_stream { render :edit , status: :unprocessable_entity }
+        format.html { render :all, status: :unprocessable_entity }
+        format.turbo_stream { render :all, status: :unprocessable_entity }
         format.json { render :show, status: :unprocessable_entity, location: @pre_poll }
       end
     end
@@ -96,7 +115,7 @@ class PrePollsController < ApplicationController
     poll.choices.each_with_index do |choice, index|
       vote.vote_details.build(choice: choice, position: index)
     end
-end
+  end
 
   def set_pre_poll
     @pre_poll = PrePoll.find(params[:id])
