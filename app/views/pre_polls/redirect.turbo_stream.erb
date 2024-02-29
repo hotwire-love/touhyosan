@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "redirect_event_frame" do %>
+  <%= link_to("", poll_path(@poll) , data-controller: "redirect",  data-redirect-target: "name" ) %>
+<% end %>

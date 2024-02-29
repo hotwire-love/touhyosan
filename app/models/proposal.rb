@@ -4,5 +4,7 @@ class Proposal < ApplicationRecord
 
   scope :default_order, -> { order(:id) }
 
+  attribute :user_name, :string, default: -> { Faker::Fantasy::Tolkien.character }
+
   validates :user_name, presence: true
 end

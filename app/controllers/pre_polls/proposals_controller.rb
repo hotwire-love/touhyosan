@@ -12,20 +12,16 @@ module PrePolls
     # POST /proposals or /proposals.json
     def create
       @proposal = @pre_poll.proposals.new(proposal_params)
-      proposal_params[:content].split("\n").each do |title|
-        next if title.blank?
-        @proposal.choiceitems.build(title: title, accepted: false)
+      if params[:proposal][:content]
+        params[:proposal][:content].split("\n").each do |title|
+          next if title.blank?
+          @proposal.choiceitems.build(title: title, accepted: false)
+        end
       end
       if @proposal.save
         @proposal.broadcast_replace_to @pre_poll, target: "pre_poll_result", partial: "pre_polls/result", locals: { pre_poll: @pre_poll }
         message = "提案を作成しました"
-        respond_to do |format|
-          format.html { redirect_to pre_poll_path(@pre_poll), notice: message }
-          format.turbo_stream {
-            flash.now.notice = message
-            render "result", pre_poll: @pre_poll
-          }
-        end
+        redirect_to pre_poll_path(@pre_poll), notice: message
       else
         render :new, status: :unprocessable_entity
       end
@@ -39,8 +35,13 @@ module PrePolls
     # PATCH/PUT /proposals/1 or /proposals/1.json
     def update
       # @proposal = @pre_poll.proposals.find(params[:id])
-
       if @proposal.update(proposal_params)
+        if params[:proposal][:content]
+          params[:proposal][:content].split("\n").each do |title|
+            next if title.blank?
+            @proposal.choiceitems.build(title: title, accepted: false)
+          end
+        end
         @proposal.broadcast_replace_to @pre_poll, target: "pre_poll_result", partial: "pre_polls/result", locals: { pre_poll: @pre_poll }
 
         message = "提案を更新しました"
@@ -48,7 +49,7 @@ module PrePolls
           format.html { redirect_to poll_path(@pre_poll), notice: message }
           format.turbo_stream {
             flash.now.notice = message
-            render "result"
+            render "update"
           }
         end
       else
@@ -70,7 +71,7 @@ module PrePolls
 
     # Only allow a list of trusted parameters through.
     def proposal_params
-      params.require(:proposal).permit(:user_name, :content,
+      params.require(:proposal).permit(:user_name,
                                        choiceitem_attributes: %i[id title accepted])
     end
   end

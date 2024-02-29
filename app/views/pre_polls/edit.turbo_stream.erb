@@ -1,28 +1,3 @@
-<%= turbo_frame_tag "editor_form", autoscroll: true, data: { autoscroll_behavior: "start" } do %>
-  <%= render "pre_polls/proposals/form", pre_poll: @pre_poll %>
+<%= turbo_frame_tag "pre_poll_result", autoscroll: true, data: { autoscroll_behavior: 'start' } do %>
+  <%= render "pre_polls/table", pre_poll: @pre_poll  %>
 <% end %>
-
-<%= turbo_frame_tag "pre_poll_result", autoscroll: true, data: { autoscroll_behavior: "start" } do %>
-  <%= render "pre_polls/proposals/result", pre_poll: @pre_poll %>
-
-  <%= link_to "選択肢を提案",
-              new_pre_poll_proposal_path(@pre_poll),
-              class: "btn btn-primary",
-              data: { turbo_frame: "proposal_form" } %>
-</div>
-
-
-
-
-<%= turbo_frame_tag "editor_form", autoscroll: true, data: { autoscroll_behavior: "start" } do %>
-  <%= render "pre_polls/proposals/form", pre_poll: @pre_poll %>
-<% end %>
-
-<%= turbo_frame_tag "pre_poll_result", autoscroll: true, data: { autoscroll_behavior: "start" } do %>
-  <%= render "pre_polls/proposals/result", pre_poll: @pre_poll %>
-
-  <%= link_to "選択肢を提案",
-              new_pre_poll_proposal_path(@pre_poll),
-              class: "btn btn-primary",
-              data: { turbo_frame: "proposal_form" } %>
-</div>

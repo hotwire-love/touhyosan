@@ -1,0 +1,37 @@
+<table id="proposal_result" class="table">
+<%
+  array, max_col, max_row, initial_value = make_table(pre_poll)
+%>
+
+<tr> <%  pre_poll.proposals.default_order.each_with_index do |proposal, ind_c| %>
+    <th> <%= link_to proposal.user_name,
+                                        edit_pre_poll_proposal_path(pre_poll, proposal),
+                                        data: { turbo_frame: "proposal_form" } %></th>
+    <% end %>
+</tr>
+
+<%    0.upto(max_row - 1) do |row_index| %>
+<tr>
+        <% 0.upto(max_col - 1) do |col_index| %>
+          <% item = array[row_index][col_index] %>
+          <% 
+          # raise if item[0].instance_of?(Integer)
+
+          itemx = if item.nil? || item[1].nil?
+                    initial_value
+                  else
+                    item
+                  end
+          # raise if itemx[0].instance_of?(Integer)
+          %>
+          <% if itemx[1] %>
+            <td class="accepted"><%= itemx[0] %></td>
+          <% else %>
+            <td><%= itemx[0] %></td>
+          <% end %>
+        <% end %>
+</tr>
+      <% end %>
+
+</table>
+

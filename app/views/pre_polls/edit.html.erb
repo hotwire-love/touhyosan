@@ -1,42 +1,38 @@
-<%= turbo_stream_from @pre_poll %>
-<% if @current_editor %>
-  <%= turbo_stream_from "editor" %>
-<% else %>
-  <<%= turbo_stream_from "proposer" %>
-% end %>
+<%= turbo_frame_tag "redirect_event_frame" do %>
+<% end %>
 
-<h1>投票さん</h1>
+<%= turbo_stream_from @pre_poll %>
 
 <h2>「<%= @pre_poll.title %>」</h2>
 
 <div class="container">
+  <div class="row">
+    <div class="col-3">
+      <p style="color: green"><%= notice %></p>
+      <%= turbo_frame_tag "pre_poll_form" do %>
+        <%= render "pre_polls/form", pre_poll: @pre_poll %>
+      <% end %>
 
-<div class="col-md-1">
-<p style="color: green"><%= notice %></p>
-
-  <%= turbo_frame_tag "editor_form", autoscroll: true, data: { autoscroll_behavior: 'start' } do %>
-    <%= render "pre_polls/form", pre_poll: @pre_poll %>
-  <% end %>
-</div>
-
-<div class="col-md-4">
-　<div class="container">
-
-  <%= turbo_frame_tag "pre_poll_result", autoscroll: true, data: { autoscroll_behavior: 'start' } do %>
-    <%= render 'pre_polls/proposals/result', pre_poll: @pre_poll %>
-
-    <%= link_to "選択肢を提案",
-            new_pre_poll_proposal_path(@pre_poll),
-            class: "btn btn-primary",
-            data: { turbo_frame: "proposal_form" } %>
+    </div>
+    <div class="col-6">
+      <div class="row">
+        <%= turbo_frame_tag "pre_poll_result", autoscroll: true, data: { autoscroll_behavior: 'start' } do %>
+          <%= render "pre_polls/table", pre_poll: @pre_poll  %>
+        <% end %>
+        <div class="col-4">
+        <%= link_to "選択肢を提案",
+              new_pre_poll_proposal_path(@pre_poll),
+              class: "btn btn-primary",
+              data: { turbo_frame: "proposal_form" } %>
+        </div>
+      </div>
+    </div>
   </div>
- </div>
 </div>
 
-
-<div data-controller="modalb"
-     data-action="turbo:frame-load->modalb#show turbo:submit-end->modal#hide">
-  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true" data-modal-target="modalb">
+<div data-controller="modal"
+     data-action="turbo:frame-load->modal#show turbo:submit-end->modal#hide">
+  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true" data-modal-target="modal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body">
@@ -47,3 +43,4 @@
     </div>
   </div>
 </div>
+

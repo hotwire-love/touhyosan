@@ -43,8 +43,4 @@ module ApplicationHelper
     html += %(</table>)
     html
   end
-
-  def current_editor
-    session[:editor]
-  end
 end

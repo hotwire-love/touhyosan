@@ -2,9 +2,11 @@ Rails.application.routes.draw do
   root "polls#new"
 
   resources :pre_polls, only: [:show, :edit, :update] do
-    resources :proposals, only: [:new, :create, :edit, :update], module: :pre_polls do
-      get "accept", on: :collection
+    member do
+      get 'accept'
     end
+
+    resources :proposals, only: [:new, :create, :edit, :update], module: :pre_polls
   end
 
   resources :polls, only: [:show, :new, :create] do

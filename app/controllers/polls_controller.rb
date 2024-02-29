@@ -17,7 +17,7 @@ class PollsController < ApplicationController
     if @poll.choices_text.strip.size == 0
       #editor_idは他のセッションと区別をつけるために設定する。設定内容は他のセッションと区別がつけられれば何でも良い
       editor_id = "#{@poll.id}-#{Time.now.to_i}-#{self.object_id}"
-      set_current_editor(editor_id)
+      set_editor(editor_id)
       @pre_poll = PrePoll.create(title: @poll.title, editor_id: editor_id)
       redirect_to pre_poll_path(@pre_poll)
     else
@@ -29,7 +29,7 @@ class PollsController < ApplicationController
     end
   end
 
-  def set_current_editor(editor)
+  def set_editor(editor)
     session[:editor] = editor
   end
 

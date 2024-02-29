@@ -16,6 +16,12 @@ application.register("hello", HelloController)
 import ModalController from "./modal_controller"
 application.register("modal", ModalController)
 
+import RedirectController from "./redirect_controller"
+application.register("redirect", RedirectController)
+
+import TextareaAutosizeAutosubmitController from "./textarea_autosize_autosubmit_controller"
+application.register("textarea-autosize-autosubmit", TextareaAutosizeAutosubmitController)
+
 import TextareaAutosizeController from "./textarea_autosize_controller"
 application.register("textarea-autosize", TextareaAutosizeController)
 
