@@ -16,7 +16,9 @@ module Polls
 
         message = "投票を作成しました"
         respond_to do |format|
-          format.html { redirect_to poll_path(@poll), notice: message }
+          format.html {
+            redirect_to poll_path(@poll), notice: message
+          }
           format.turbo_stream {
             flash.now.notice = message
             render "result"

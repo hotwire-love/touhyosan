@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :pre_polls, only: [:show, :edit, :update] do
     member do
       get 'accept'
+      get 'redirectx'
     end
 
     resources :proposals, only: [:new, :create, :edit, :update], module: :pre_polls

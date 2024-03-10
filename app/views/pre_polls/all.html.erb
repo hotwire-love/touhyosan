@@ -4,11 +4,11 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-3">
+    <div class="col-4">
       <p style="color: green"><%= notice %></p>
       <%= render "pre_polls/form", pre_poll: @pre_poll %>
     </div>
-    <div class="col-6">
+    <div class="col-8">
       <div class="row">
         <%= render "pre_polls/table", pre_poll: @pre_poll  %>
         <div class="col-4">
@@ -35,7 +35,3 @@
     </div>
   </div>
 </div>
-
-<%= turbo_frame_tag "redirect_event_frame" do %>
-<% end %>
-

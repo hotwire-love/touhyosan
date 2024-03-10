@@ -10,6 +10,9 @@ application.register("autosubmit", AutosubmitController)
 import DraggableController from "./draggable_controller"
 application.register("draggable", DraggableController)
 
+import Hello2Controller from "./hello2_controller"
+application.register("hello2", Hello2Controller)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 

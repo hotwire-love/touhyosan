@@ -45,4 +45,6 @@
 .idea
 .tool-versions
 
+/_old/
+app/views/pre_polls/_old/
 

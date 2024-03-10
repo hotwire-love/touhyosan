@@ -4,7 +4,7 @@
     create_class_str = 'col-4 btn btn-sm btn-primary'
     createa1_class_str = 'col-4 btn btn-sm btn-secondary'
     accept_class_str = 'col-4 btn btn-sm btn-success'
-  
+
     unless current_editor
       create_class_str += ' invisible'
       createa1_class_str += ' invisible'
@@ -14,17 +14,23 @@
   <div class="container">
     <div class="row">
       <div class="col-12 form-label">
-      <%= f.text_area :content, class: "form-control", style: "width:100%", rows: "6", 
-        # TODO: methodはgetのままでよいか？ 
-        data: {controller: 'textarea-autosize-autosubmit', 
-        action: 'input->textarea-autosize-autosubmit#submit'}, method: :get  %>
+        <% if current_editor %>
+          <%= f.text_area :content, style: "width:100%", rows: "6", 
+          # TODO: methodはgetのままでよいか？ 
+          data: {controller: 'textarea-autosize-autosubmit', 
+          action: 'input->textarea-autosize-autosubmit#submit'}, method: :get %>
+        <% else %>
+          <%= f.text_area :content, class: "form-control", style: "width:100%", rows: "6", 
+          # TODO: methodはgetのままでよいか？ 
+          data: {controller: 'textarea-autosize-autosubmit', 
+          action: 'input->textarea-autosize-autosubmit#submit'}, method: :get , readonly: true %>     
+        <% end %>
       </div>
     </div>
     <div class="row">
-      <%= f.submit name:"btn", value: "Create", class: "#{create_class_str}"  , id: pre_poll.id %>
-      <%= f.submit name:"btn", value: "CreateAll", class: "#{createa1_class_str}"  , id: pre_poll.id do "CreateAll" end %>
-      <%= link_to 'Accept', accept_pre_poll_path(pre_poll), id: pre_poll.id, class: "#{accept_class_str}" %>
-
+      <%= f.submit "生成", name:"btn", value: "Create", class: "#{create_class_str}"  , id: pre_poll.id %>
+      <%= f.submit "生成＋投票", name:"btn", value: "CreateAll", class: "#{createa1_class_str}"  , id: pre_poll.id do "CreateAll" end %>
+      <%= link_to '承認', accept_pre_poll_path(pre_poll), id: pre_poll.id, class: "#{accept_class_str}" %>
     </div>
   </div>
 <% end %>

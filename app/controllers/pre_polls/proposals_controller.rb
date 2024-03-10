@@ -21,7 +21,8 @@ module PrePolls
       if @proposal.save
         @proposal.broadcast_replace_to @pre_poll, target: "pre_poll_table", partial: "pre_polls/table", locals: { pre_poll: @pre_poll }
         message = "提案を作成しました"
-        redirect_to pre_poll_path(@pre_poll), notice: message
+        flash.now.notice = message
+        redirect_to pre_poll_path(@pre_poll)
       else
         render :new, status: :unprocessable_entity
       end
@@ -46,16 +47,8 @@ module PrePolls
           @proposal.broadcast_replace_to @pre_poll, target: "pre_poll_table", partial: "pre_polls/table", locals: { pre_poll: @pre_poll }
 
           message = "提案を更新しました"
-          redirect_to pre_poll_path(@pre_poll), notice: message
-=begin
-        respond_to do |format|
-          format.html { redirect_to poll_path(@pre_poll), notice: message }
-          format.turbo_stream {
-            flash.now.notice = message
-            render :edit
-          }
-        end
-=end
+          flash.now.notice = message
+          redirect_to pre_poll_path(@pre_poll)
         end
       else
         render :edit, status: :unprocessable_entity
