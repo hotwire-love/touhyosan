@@ -9,3 +9,4 @@ import * as Turbo from '@hotwired/turbo'
 
 import TurboPower from 'turbo_power'
 TurboPower.initialize(Turbo.StreamActions)
+

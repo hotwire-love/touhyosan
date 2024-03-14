@@ -1,0 +1,19 @@
+<%= turbo_frame_tag "pre_poll_form" do %>
+  <%= bootstrap_form_for [pre_poll], data: { controller: "autosubmit", action: "input->autosubmit#submit:prevent" } do |f| %>
+    <% create_class_str = "col-4 btn btn-sm btn-primary"
+      propose_class_str = "col-4 btn btn-sm btn-success" %>
+    <div class="container">
+      <div class="col">
+        <div class="col-12 form-label">
+          <div> 
+            <%= f.text_area :content, style: "width:100%", rows: "8" %>
+          </div>
+
+        <div class="row">
+          <%= f.submit name: "btn", value: "生成", class: "#{create_class_str}", id: pre_poll.id %>
+          <%= link_to "提案", propose_pre_poll_path(pre_poll), id: pre_poll.id, class: "#{propose_class_str}" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
