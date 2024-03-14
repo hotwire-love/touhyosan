@@ -9,10 +9,17 @@ class PollsController < ApplicationController
 
   def create
     @poll = Poll.new(poll_params)
-    if @poll.save
-      redirect_to poll_path(@poll)
+    # pollに選択肢を定義しなかった場合、pre_pollを作成し、他の人からの提案を受け付ける
+    if @poll.choices_text.strip.size == 0
+      #editor_idは他のセッションと区別をつけるために設定する。設定内容は他のセッションと区別がつけられれば何でも良い
+      @pre_poll = PrePoll.create(title: @poll.title)
+      redirect_to pre_poll_path(@pre_poll)
     else
-      render :new, status: :unprocessable_entity
+      if @poll.save
+        redirect_to poll_path(@poll)
+      else
+        render :new, status: :unprocessable_entity
+      end
     end
   end
 
