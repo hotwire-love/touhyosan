@@ -38,3 +38,5 @@ end
 
 gem "foreman"
 
+
+gem "turbo_power", "~> 0.6.1"
