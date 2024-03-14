@@ -15,3 +15,4 @@ export default class extends Controller {
     console.log("Disconnected from submitx_controller");
   }
 }
+
