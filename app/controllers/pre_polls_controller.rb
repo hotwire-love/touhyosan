@@ -31,7 +31,6 @@ class PrePollsController < ApplicationController
             format.turbo_stream {
               # flash.now.notice = message
               render turbo_stream: turbo_stream.redirect(poll_path(@poll))
-              # Turbo::StreamsChannel.broadcast_action_later_to(@pre_poll, action: :redirect, target: "pre_poll_form", partial: "pre_polls/formx", locals: { pre_poll: @pre_poll })
               Turbo::StreamsChannel.broadcast_action_later_to(@pre_poll, action: :redirect, url: poll_path(@poll))
             }
           end
@@ -53,7 +52,7 @@ class PrePollsController < ApplicationController
             # render "update.turbo_stream.erb"
             # render turbo_stream: turbo_stream.replace("pre_poll_form", partial: "pre_polls/form", locals: { pre_poll: @pre_poll })
             # Turbo::StreamsChannel.broadcast_replace_to @pre_poll, target: "pre_poll_form", partial: "pre_polls/form", locals: { pre_poll: @pre_poll })
-            Turbo::StreamsChannel.broadcast_replace_to(@pre_poll, target: "pre_poll_form", partial: "pre_polls/formx", locals: { pre_poll: @pre_poll })
+            Turbo::StreamsChannel.broadcast_update_to(@pre_poll, target: "pre_poll_form", partial: "pre_polls/formx", locals: { pre_poll: @pre_poll })
           }
         end
       end
