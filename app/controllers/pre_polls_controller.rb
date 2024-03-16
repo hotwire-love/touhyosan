@@ -14,45 +14,17 @@ class PrePollsController < ApplicationController
   def update
     if @pre_poll.update(pre_poll_params)
       btn_name = params["btn"]
-      if btn_name == "生成"
-        error_count = 0
-        @poll = create_poll_with_content(@pre_poll, @pre_poll.content)
-        if !@poll.save
-          error_count += 1
-        end
-
-        if error_count.zero?
-          message = "Pollを生成しました"
-          respond_to do |format|
-            format.html {
-              redirect_to poll_path(@poll), notice: message
-            }
-            format.json { render :show, status: :created, location: @pre_poll }
-            format.turbo_stream {
-              # flash.now.notice = message
-              render turbo_stream: turbo_stream.redirect(poll_path(@poll))
-              Turbo::StreamsChannel.broadcast_action_later_to(@pre_poll, action: :redirect, url: poll_path(@poll))
-            }
-          end
-          # format.turbo_stream { render turbo_stream: turbo_stream.redirect(poll_path(@poll)) }
-          # redirect_to poll_path(@poll)
-          # @pre_poll.broadcast_action_to @pre_poll, action: :redirect, url: poll_path(@poll)
-          # pre_pollのsaveに失敗すると、
-        else
-          redirect_to root_path, status: :unprocessable_entity
-          # render :new, status: :unprocessable_entity
-        end
+      if btn_name == "生成u" || btn_name == "生成x" || btn_name == "生成b"
+        produce_poll_and_redirect
       else
         respond_to do |format|
           format.html {
-            render :all, notice: message
+            # render :all, notice: message
+            Turbo::StreamsChannel.broadcast_replace_to(@pre_poll, target: "pre_poll_form", partial: "pre_polls/all", locals: { pre_poll: @pre_poll })
           }
           format.json { render :show, status: :created, location: @pre_poll }
           format.turbo_stream {
-            # render "update.turbo_stream.erb"
-            # render turbo_stream: turbo_stream.replace("pre_poll_form", partial: "pre_polls/form", locals: { pre_poll: @pre_poll })
-            # Turbo::StreamsChannel.broadcast_replace_to @pre_poll, target: "pre_poll_form", partial: "pre_polls/form", locals: { pre_poll: @pre_poll })
-            Turbo::StreamsChannel.broadcast_update_to(@pre_poll, target: "pre_poll_form", partial: "pre_polls/formx", locals: { pre_poll: @pre_poll })
+            Turbo::StreamsChannel.broadcast_replace_to(@pre_poll, target: "pre_poll_form", partial: "pre_polls/form", locals: { pre_poll: @pre_poll })
           }
         end
       end
@@ -81,8 +53,20 @@ class PrePollsController < ApplicationController
     end
     respond_to do |format|
       if @pre_poll.update(content: content)
-        @pre_poll.broadcast_update_to "pre_poll", partial: "pre_polls/all", locals: { pre_poll: @pre_poll }
+        format.html {
+          # render :all, notice: message
+          Turbo::StreamsChannel.broadcast_replace_to(@pre_poll, partial: "pre_polls/all", locals: { pre_poll: @pre_poll })
+        }
+        format.json { render :show, status: :created, location: @pre_poll }
+        format.turbo_stream {
+          # Turbo::StreamsChannel.broadcast_render_to(@pre_poll, partial: "pre_polls/all", locals: { pre_poll: @pre_poll })
+          Turbo::StreamsChannel.broadcast_replace_to(@pre_poll, partial: "pre_polls/form", locals: { pre_poll: @pre_poll })
+        }
+
 =begin
+        # @pre_poll.broadcast_update_to "pre_poll", partial: "pre_polls/all", locals: { pre_poll: @pre_poll }
+        Turbo::StreamsChannel.broadcast_replace_to(@pre_poll, partial: "pre_polls/all", locals: { pre_poll: @pre_poll })
+
         format.html { render :all }
         # format.turbo_stream { render :form }
         format.turbo_stream { render turbo_stream: turbo_stream.redirect(root_url) }
@@ -97,6 +81,29 @@ class PrePollsController < ApplicationController
   end
 
   private
+
+  def produce_poll_and_redirect
+    error_count = 0
+    @poll = create_poll_with_content(@pre_poll, @pre_poll.content)
+    if !@poll.save
+      error_count += 1
+    end
+
+    if error_count.zero?
+      message = "Pollを生成しました"
+      respond_to do |format|
+        format.html {
+          Turbo::StreamsChannel.broadcast_render_to(@pre_poll, turbo_stream.redirect(poll_path(@poll)))
+        }
+        format.json { render :show, status: :created, location: @pre_poll }
+        format.turbo_stream {
+          Turbo::StreamsChannel.broadcast_render_to(@pre_poll, turbo_stream.redirect(poll_path(@poll)))
+        }
+      end
+    else
+      redirect_to root_path, status: :unprocessable_entity
+    end
+  end
 
   # def create_poll(pre_poll, content)
   def create_poll_with_content(pre_poll, content)

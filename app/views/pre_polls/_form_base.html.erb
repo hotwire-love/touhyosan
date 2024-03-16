@@ -1,5 +1,6 @@
-  <%= bootstrap_form_for [@pre_poll], data: { controller: "submitform", action: "click=>submitform#no_action:prevent" } do |f| %>
+  <%= bootstrap_form_for [pre_poll], data: { controller: "submitform", action: "click=>submitform#no_action:prevent" } do |f| %>
     <% create_class_str = "col-4 btn btn-sm btn-primary"
+       update_class_str = "col-4 btn btn-sm btn-secondary"
        propose_class_str = "col-4 btn btn-sm btn-success" %>
     <div class="container">
       <div class="col">
@@ -7,11 +8,11 @@
           <div> 
             <%= f.text_area :content, style: "width:100%", rows: "8", data: {controller: 'textarea-autosize'} %>
           </div>
-
+form_base
         <div class="row">
-          <%= f.submit name: "btn", value: "生成", class: "#{create_class_str}", id: @pre_poll.id, data: { controller: "submitx", action: "click->submitform#submit:prevent" } %>
-          <%= f.submit name: "btn", value: "更新", class: "#{create_class_str}", id: @pre_poll.id, data: { controller: "submitx", action: "click->submitform#submit:prevent" } %>
-          <%= link_to "追加", propose_pre_poll_path(@pre_poll), id: @pre_poll.id, class: "#{propose_class_str}" %>
+          <%= f.submit name: "btn", value: "生成b", class: "#{create_class_str}", id: pre_poll.id, data: { controller: "submitx", action: "click->submitform#submit:prevent" } %>
+          <%= f.submit name: "btn", value: "更新b", class: "#{update_class_str}", id: pre_poll.id, data: { controller: "submitx", action: "click->submitform#submit:prevent" } %>
+          <%= link_to "追加", propose_pre_poll_path(pre_poll), id: pre_poll.id, class: "#{propose_class_str}" %>
         </div>
       </div>
     </div>
