@@ -20,14 +20,12 @@ class PrePollsController < ApplicationController
         respond_to do |format|
           format.html {
             # render :all, notice: message
-            Turbo::StreamsChannel.broadcast_render_to(@pre_poll, partial: "pre_polls/all", locals: { pre_poll: @pre_poll })
+            Turbo::StreamsChannel.broadcast_replace_to(@pre_poll, partial: "pre_polls/all", locals: { pre_poll: @pre_poll })
           }
           format.json { render :show, status: :created, location: @pre_poll }
           format.turbo_stream {
-            # render "update.turbo_stream.erb"
-            # render turbo_stream: turbo_stream.replace("pre_poll_form", partial: "pre_polls/form", locals: { pre_poll: @pre_poll })
-            # Turbo::StreamsChannel.broadcast_replace_to @pre_poll, target: "pre_poll_form", partial: "pre_polls/form", locals: { pre_poll: @pre_poll })
-            Turbo::StreamsChannel.broadcast_render_to(@pre_poll, partial: "pre_polls/all", locals: { pre_poll: @pre_poll })
+            # Turbo::StreamsChannel.broadcast_render_to(@pre_poll, partial: "pre_polls/all", locals: { pre_poll: @pre_poll })
+            Turbo::StreamsChannel.broadcast_replace_to(@pre_poll, partial: "pre_polls/form", locals: { pre_poll: @pre_poll })
           }
         end
       end
@@ -52,11 +50,11 @@ class PrePollsController < ApplicationController
     # accept_pre_poll_proposals
     content = @pre_poll.content
     if !(content.nil? || content.empty? || content.strip.size.zero?)
-      content += ("\n" + lines.join("\n"))
+      content = @pre_poll.content + "\n" + params[:content]
     end
     respond_to do |format|
       if @pre_poll.update(content: content)
-        @pre_poll.broadcast_update_to "pre_poll", partial: "pre_polls/all", locals: { pre_poll: @pre_poll }
+        @pre_poll.broadcast_replace_to "pre_poll", partial: "pre_polls/all", locals: { pre_poll: @pre_poll }
       else
         format.html { render :all, status: :unprocessable_entity }
         format.turbo_stream { render :all, status: :unprocessable_entity }

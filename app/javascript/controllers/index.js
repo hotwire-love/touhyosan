@@ -16,6 +16,9 @@ application.register("hello", HelloController)
 import ModalController from "./modal_controller"
 application.register("modal", ModalController)
 
+import SubmitformController from "./submitform_controller"
+application.register("submitform", SubmitformController)
+
 import SubmitxController from "./submitx_controller"
 application.register("submitx", SubmitxController)
 
@@ -24,9 +27,3 @@ application.register("textarea-autosize", TextareaAutosizeController)
 
 import ToastController from "./toast_controller"
 application.register("toast", ToastController)
-
-import XtestController from "./xtest_controller"
-application.register("xtest", XtestController)
-
-import YtestController from "./ytest_controller"
-application.register("ytest", YtestController)

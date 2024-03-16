@@ -1,11 +1,13 @@
-<%= turbo_stream_from @pre_poll %>
+<% pre_poll = @pre_poll %>
 
-<h2>「<%= @pre_poll.title %>」</h2>
+<%= turbo_stream_from pre_poll %>
+
+<h2>「<%= pre_poll.title %>」</h2>
 
 <div class="container">
   <div class="col-6">
     <p style="color: green"><%= notice %></p>
-    <%= render "pre_polls/form", pre_poll: @pre_poll %>
+    <%= render "pre_polls/form", pre_poll: pre_poll %>
   </div>
 </div>
 
