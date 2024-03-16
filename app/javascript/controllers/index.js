@@ -27,9 +27,3 @@ application.register("textarea-autosize", TextareaAutosizeController)
 
 import ToastController from "./toast_controller"
 application.register("toast", ToastController)
-
-import XtestController from "./xtest_controller"
-application.register("xtest", XtestController)
-
-import YtestController from "./ytest_controller"
-application.register("ytest", YtestController)

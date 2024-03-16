@@ -1,17 +1,18 @@
 <%= turbo_frame_tag "pre_poll_form" do %>
-  <%= bootstrap_form_for [pre_poll], data: { controller: "autosubmit", action: "input->autosubmit#submit:prevent" } do |f| %>
+  <%= bootstrap_form_for [pre_poll], data: { controller: "submitform", action: "click=>submitform#no_action:prevent" } do |f| %>
     <% create_class_str = "col-4 btn btn-sm btn-primary"
-      propose_class_str = "col-4 btn btn-sm btn-success" %>
+       propose_class_str = "col-4 btn btn-sm btn-success" %>
     <div class="container">
       <div class="col">
         <div class="col-12 form-label">
           <div> 
-            <%= f.text_area :content, style: "width:100%", rows: "8" %>
+            <%= f.text_area :content, style: "width:100%", rows: "8", data: {controller: 'textarea-autosize'} %>
           </div>
 
         <div class="row">
-          <%= f.submit name: "btn", value: "生成", class: "#{create_class_str}", id: pre_poll.id %>
-          <%= link_to "提案", propose_pre_poll_path(pre_poll), id: pre_poll.id, class: "#{propose_class_str}" %>
+          <%= f.submit name: "btn", value: "生成", class: "#{create_class_str}", id: pre_poll.id, data: { controller: "submitx", action: "click->submitform#submit:prevent" } %>
+          <%= f.submit name: "btn", value: "更新", class: "#{create_class_str}", id: pre_poll.id, data: { controller: "submitx", action: "click->submitform#submit:prevent" } %>
+          <%= link_to "追加", propose_pre_poll_path(pre_poll), id: pre_poll.id, class: "#{propose_class_str}" %>
         </div>
       </div>
     </div>
