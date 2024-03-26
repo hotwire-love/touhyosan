@@ -38,10 +38,4 @@ end
 
 gem "foreman"
 
-<<<<<<< HEAD
 gem "turbo_power", "~> 0.6.1"
-||||||| parent of 444c577 (use custom stream action for redirect with torbo_powerpack)
-=======
-
-gem "turbo_power", "~> 0.6.1"
->>>>>>> 444c577 (use custom stream action for redirect with torbo_powerpack)
