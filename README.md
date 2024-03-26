@@ -4,36 +4,40 @@
 
 https://touhyosan.hotwire.love/
 
-## Design 
+## Design
 
-簡単なER図や画面遷移図など。
+簡単な ER 図や画面遷移図など。
 
 https://miro.com/app/board/uXjVPSNbiAc=/
 
 ## Requirements
 
-- Ruby 3.x.x (Gemfileに記載されているRubyバージョンを参照)
-- PostgreSQLを推奨、sqlite3でも可
+- Ruby 3.x.x (Gemfile に記載されている Ruby バージョンを参照)
+- PostgreSQL を推奨、sqlite3 でも可
 - yarn
 
-## How to setup 
+## How to setup
 
 1. 自分のアカウントにリポジトリをフォークする
-1. ローカル環境にgit cloneして`cd touhyosan`
-1. DBの接続情報をローカル環境に合わせて更新する　
-   - PostgreSQLを使う場合（推奨） `cp config/database.yml.postgres.example config/database.yml`
-   - SQLite3を使う場合 `cp config/database.yml.sqlite3.example config/database.yml`
+1. ローカル環境に git clone して`cd touhyosan`
+1. DB の接続情報をローカル環境に合わせて更新する
+   - PostgreSQL を使う場合（推奨） `cp config/database.yml.postgres.example config/database.yml`
+   - SQLite3 を使う場合 `cp config/database.yml.sqlite3.example config/database.yml`
    - `vi config/database.yml`
-   - `database.yml.example` にはPostgreSQLの設定例と、sqlite3の設定例が載っています
+   - `database.yml.example` には PostgreSQL の設定例と、sqlite3 の設定例が載っています
 1. `bin/setup`を実行する
-   - sqlite3環境の場合、`schema.rb`に多少diffが発生しますが、いったん無視してもらって大丈夫です
+   - sqlite3 環境の場合、`schema.rb`に多少 diff が発生しますが、いったん無視してもらって大丈夫です
 1. `bin/dev`でサーバーを起動する
-1. http://localhost:3000 が正常に表示されればOK
+1. http://localhost:3000 が正常に表示されれば OK
+1. 「Choices text」を入力せずに「登録する」ボタンを押すと、pre_poll が作成され、リダイレクトされます。
+1. リダイレクト先 URL にアクセスすると、複数の人が選択肢を登録できます。テキストエリアに 1 行に一つの選択肢をテキストエリアに 1 行につき 1 個の選択肢を記述し、「更新」ボタンを推すと、サーバ上の pre_poll の選択肢が更新され、さらにこの URL にアクセスしている全てのブラヌザのテキストエリアも更新されます。
+1. ただし、「更新」ボタンを押す際に排他制御は行っていないため、なんらかの手段で連絡を取りつつ、更新は必ず一人ずつ行うようにしてください。
+1. 「生成」ボタンを押すと、テキストエリアに記述された選択肢をもつ poll が作成され、この URL にアクセスしている全てのブラウザが生成された poll の URL にリダイレクトされます。
 
 ## How to deploy
 
-運営メンバーがmainブランチを更新すると自動的にHerokuにデプロイされます。（運営メンバーは事前にGitHubアカウントをHerokuと連携させておくこと）
+運営メンバーが main ブランチを更新すると自動的に Heroku にデプロイされます。（運営メンバーは事前に GitHub アカウントを Heroku と連携させておくこと）
 
-## License 
+## License
 
 MIT License.

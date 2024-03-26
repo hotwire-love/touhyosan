@@ -8,17 +8,3 @@
     <%= render "pre_polls/form", pre_poll: pre_poll %>
   </div>
 </div>
-
-<div data-controller="modal"
-     data-action="turbo:frame-load->modal#show turbo:submit-end->modal#hide">
-  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true" data-modal-target="modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body">
-          <%= turbo_frame_tag "form_propose", autoscroll: true, data: { autoscroll_behavior: 'start' } do %>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
