@@ -35,3 +35,7 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
 end
+
+gem "foreman"
+gem "turbo_power"
+
