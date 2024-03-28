@@ -1,0 +1,2 @@
+class PrePoll < ApplicationRecord
+end
