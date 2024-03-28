@@ -1,0 +1,2 @@
+<%= turbo_stream.append "choices", partial: 'choice', locals: { choice: @choice } %>
+<%= turbo_stream.update "new_choice", partial: 'form', locals: { choice: @poll.choices.build } %>

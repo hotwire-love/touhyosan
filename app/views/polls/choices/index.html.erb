@@ -1,0 +1,7 @@
+<h2>「<%= @poll.title %>」</h2>
+<ul id="choices">
+  <%= render @poll.choices.default_order %>
+</ul>
+<div id="new_choice">
+  <%= render 'form', choice: @choice %>
+</div>
