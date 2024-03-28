@@ -16,6 +16,10 @@ module Polls
     end
 
     def destroy
+      @choice = @poll.choices.find(params[:id])
+      @choice.destroy
+      Turbo::StreamsChannel.broadcast_remove_to @poll, target: @choice
+      # NOTE: ごくまれに0バイトのHTMLが返されることがあるので、それを防ぐために destroy.turbo_stream.erb を返す
     end
 
     private
