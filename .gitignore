@@ -43,3 +43,6 @@
 /config/database.yml
 
 .idea
+
+.tool-versions
+
