@@ -37,4 +37,5 @@ group :test do
 end
 
 gem "foreman"
+gem "turbo_power"
 

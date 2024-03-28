@@ -2,28 +2,22 @@
 // Run that command whenever you add a new controller or create them with
 // ./bin/rails generate stimulus controllerName
 
-import { application } from "./application"
+import { application } from "./application";
 
-import AutosubmitController from "./autosubmit_controller"
-application.register("autosubmit", AutosubmitController)
+import AutosubmitController from "./autosubmit_controller";
+application.register("autosubmit", AutosubmitController);
 
-import DraggableController from "./draggable_controller"
-application.register("draggable", DraggableController)
+import DraggableController from "./draggable_controller";
+application.register("draggable", DraggableController);
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
+import HelloController from "./hello_controller";
+application.register("hello", HelloController);
 
-import ModalController from "./modal_controller"
-application.register("modal", ModalController)
+import ModalController from "./modal_controller";
+application.register("modal", ModalController);
 
-import TextareaAutosizeController from "./textarea_autosize_controller"
-application.register("textarea-autosize", TextareaAutosizeController)
+import TextareaAutosizeController from "./textarea_autosize_controller";
+application.register("textarea-autosize", TextareaAutosizeController);
 
-import ToastController from "./toast_controller"
-application.register("toast", ToastController)
-
-import XtestController from "./xtest_controller"
-application.register("xtest", XtestController)
-
-import YtestController from "./ytest_controller"
-application.register("ytest", YtestController)
+import ToastController from "./toast_controller";
+application.register("toast", ToastController);

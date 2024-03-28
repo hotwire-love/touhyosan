@@ -4,8 +4,7 @@ Rails.application.routes.draw do
 
   resources :pre_polls, only: [:show, :update] do
     member do
-      get "propose"
-      get "add"
+      post "append"
     end
   end
 
