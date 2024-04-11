@@ -22,7 +22,8 @@ module Polls
 
     def update
       if @choice.update(choice_params)
-        Turbo::StreamsChannel.broadcast_replace_to @poll, target: @choice, partial: 'polls/choices/choice', locals: { choice: @choice }
+        Turbo::StreamsChannel.broadcast_replace_to @poll, target: [@choice, 'poll-choice'], partial: 'polls/choices/choice', locals: { choice: @choice }
+        Turbo::StreamsChannel.broadcast_replace_to @poll, target: "poll_result", partial: 'polls/result', locals: { poll: @poll }
       else
         render :edit, status: :unprocessable_entity
       end

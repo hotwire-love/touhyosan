@@ -1,4 +1,4 @@
-<li id="<%= dom_id(choice) %>">
+<li id="<%= dom_id(choice, 'poll-choice') %>">
   <%= turbo_frame_tag(choice, 'frame') do %>
     <%= link_to choice.title, edit_poll_choice_path(choice.poll, choice) %>
     <%= button_to '削除', [choice.poll, choice], method: :delete, class: 'btn btn-sm btn-danger' %>
