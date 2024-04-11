@@ -18,7 +18,7 @@
       </td>
       <% poll.votes.default_order.each do |vote| %>
         <td>
-          <%= vote.vote_details.find_by(choice: choice).position %>
+          <%= vote.vote_details.find_by(choice: choice)&.position %>
         </td>
       <% end %>
     </tr>
