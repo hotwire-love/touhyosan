@@ -1,17 +1,17 @@
-<%= turbo_frame_tag "pre_poll_form_add" do %>  
-  <%= bootstrap_form_with url: append_url do |f| %>
-    <% append_class_str = "col-4 btn btn-sm btn-success" %>
-    <div class="container">
-      <div class="col">
-        <div class="col-12 form-label">
-          <div> 
-            <%= f.text_area :content_add, style: "width:100%", rows: "8", value: "" %>
-          </div>
-        </div>
-        <div class="row">
-          <%= f.submit name: "btn", value: "追加", class: "#{append_class_str}", id: pre_poll_id %>
+<%= bootstrap_form_with url: append_url do |f| %>
+  <% 
+    append_class_str = 'col-4 btn btn-sm btn-success'
+  %>
+  <div class="container">
+    <div class="col">
+      <div class="col-12 form-label">
+        <div> 
+          <%= f.text_area :content_add, style: "width:100%", rows: "8", value: "" %>
         </div>
       </div>
+      <div class="row">
+        <%= f.submit name:"btn", value: "追加", class: "#{append_class_str}" %>
+      </div>
     </div>
-  <% end %>
+  </div>
 <% end %>

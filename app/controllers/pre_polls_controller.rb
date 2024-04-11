@@ -1,13 +1,8 @@
-# includeしているコードは以下の記事を参照して作成しました。
-#
-# [\[Rails\]turboのカスタムアクションを使ってみる](https://zenn.dev/redheadchloe/articles/d567e7795f0acf)
-include TurboStreams::RedirectHelper
-
 class PrePollsController < ApplicationController
   before_action :set_pre_poll, only: %i[ show update append ]
 
   def show
-    render :all, locals: { pre_poll: @pre_poll, append_url: append_pre_poll_path(@pre_poll), pre_poll_id: @pre_poll.id }
+    render template: "pre_polls/show", locals: { append_url: append_pre_poll_url(@pre_poll) }
   end
 
   # PATCH/PUT /pre_polls/1 or /pre_polls/1.json
@@ -17,15 +12,13 @@ class PrePollsController < ApplicationController
       if btn_name =~ /^生成/
         produce_poll_and_redirect
       else
+        Turbo::StreamsChannel.broadcast_update_to(@pre_poll, target: @pre_poll, partial: "pre_polls/form", locals: { pre_poll: @pre_poll })
         respond_to do |format|
           format.html {
-            Turbo::StreamsChannel.broadcast_replace_to(@pre_poll, target: "pre_poll_form", partial: "pre_polls/form", locals: { pre_poll: @pre_poll })
-            render :empty, status: :ok
+            render template: "pre_polls/empty", status: :ok
           }
-          format.json { render :show, status: :created, location: @pre_poll }
           format.turbo_stream {
-            Turbo::StreamsChannel.broadcast_replace_to(@pre_poll, target: "pre_poll_form", partial: "pre_polls/form", locals: { pre_poll: @pre_poll })
-            render :empty, status: :ok
+            render template: "pre_polls/empty", status: :ok
           }
         end
       end
@@ -33,39 +26,33 @@ class PrePollsController < ApplicationController
       #TODO: debugテンプレートを削除する
       # raise
       respond_to do |format|
-        format.html { render :all, status: :unprocessable_entity }
-        format.turbo_stream { render :all, status: :unprocessable_entity }
-        format.json { render json: @pre_poll.errors, status: :unprocessable_entity }
+        format.html { render template: "pre_polls/show", status: :unprocessable_entity }
+        format.turbo_stream { render template: "pre_polls/show", status: :unprocessable_entity }
       end
     end
   end
 
   def append
     content = make_valid_str(@pre_poll.content, params[:content_add])
-    @pre_poll_id = @pre_poll.id
     @pre_poll.attributes = { content: content }
     if @pre_poll.save
       @append_url = append_pre_poll_path(@pre_poll)
+      Turbo::StreamsChannel.broadcast_update_to(@pre_poll, target: @pre_poll, partial: "pre_polls/form", locals: { pre_poll: @pre_poll })
+
       respond_to do |format|
         format.html {
-          Turbo::StreamsChannel.broadcast_replace_to(@pre_poll, target: "pre_poll_form", partial: "pre_polls/form", locals: { pre_poll: @pre_poll })
-          render template: "pre_polls/form_add"
+          render template: "pre_polls/empty", status: :ok
         }
-        format.json { render :show, status: :created, location: @pre_poll }
         format.turbo_stream {
-          Turbo::StreamsChannel.broadcast_replace_to(@pre_poll, target: "pre_poll_form", partial: "pre_polls/form", locals: { pre_poll: @pre_poll })
-          # turbo_stream.update "pre_poll_form_add", partial: "pre_polls/form_add", locals: { append_url: append_url, pre_poll_id: pre_poll_id }
-          # render template: "pre_polls/form_add", locals: { append_url: @append_url, pre_poll_id: @pre_poll_id }
-          render template: "pre_polls/form_add"
+          # 
         }
       end
     else
       #TODO: debugテンプレートを削除する
       # raise
       respond_to do |format|
-        format.html { render :all, status: :unprocessable_entity }
-        format.turbo_stream { render :all, status: :unprocessable_entity }
-        format.json { render json: @pre_poll.errors, status: :unprocessable_entity }
+        format.html { render template: "pre_polls/show", status: :unprocessable_entity }
+        format.turbo_stream { render template :"pre_polls/show", status: :unprocessable_entity }
       end
     end
   end
@@ -110,9 +97,8 @@ class PrePollsController < ApplicationController
       url = poll_path(@poll)
       respond_to do |format|
         format.html {
-          Turbo::StreamsChannel.broadcast_render_to(@pre_poll, partial: "pre_polls/redirect", locals: { url: url })
+          Turbo::StreamsChannel.broadcast_render_to(@pre_poll, template: "pre_polls/redirect", locals: { url: url })
         }
-        format.json { render :show, status: :created, location: @pre_poll }
         format.turbo_stream {
           Turbo::StreamsChannel.broadcast_render_to(@pre_poll, partial: "pre_polls/redirect", locals: { url: url })
           render :empty, status: :ok
