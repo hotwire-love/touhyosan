@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :pre_polls
   root "polls#new"
 
   resources :pre_polls, only: [:show, :update] do
