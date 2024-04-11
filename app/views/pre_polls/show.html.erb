@@ -1,0 +1,14 @@
+<%= turbo_stream_from @pre_poll %>
+
+<h2>「<%= @pre_poll.title %>」</h2>
+
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <%= render "pre_polls/form", pre_poll: @pre_poll %>
+    </div>
+    <div class="col-6">
+      <%= render "pre_polls/form_add", append_url: append_pre_poll_url(@pre_poll) %>
+    </div>
+  </div>
+</div>
