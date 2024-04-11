@@ -31,7 +31,10 @@ module Polls
 
     def destroy
       @choice.destroy
-      Turbo::StreamsChannel.broadcast_remove_to @poll, target: @choice
+      # TODO: [@choice, 'poll-choice'] をうまく管理したい
+      Turbo::StreamsChannel.broadcast_remove_to @poll, target: [@choice, 'poll-choice']
+      # TODO: DRYにしたい
+      Turbo::StreamsChannel.broadcast_replace_to @poll, target: "poll_result", partial: 'polls/result', locals: { poll: @poll }
       # NOTE: ごくまれに0バイトのHTMLが返されることがあるので、それを防ぐために destroy.turbo_stream.erb を返す
     end
 
