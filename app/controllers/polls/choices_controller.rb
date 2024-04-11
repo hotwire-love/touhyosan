@@ -10,7 +10,7 @@ module Polls
     def create
       @choice = @poll.choices.build(choice_params)
       if @choice.save
-        Turbo::StreamsChannel.broadcast_append_to @poll, target: "choices", partial: 'polls/choices/choice', locals: { choice: @choice }
+        Turbo::StreamsChannel.broadcast_append_to @poll, target: "poll-choices", partial: 'polls/choices/choice', locals: { choice: @choice }
         Turbo::StreamsChannel.broadcast_replace_to @poll, target: "poll_result", partial: 'polls/result', locals: { poll: @poll }
       else
         render :index, status: :unprocessable_entity

@@ -1,7 +1,7 @@
 
 <%= turbo_stream_from @poll %>
 <h2>「<%= @poll.title %>」</h2>
-<ul id="choices">
+<ul id="poll-choices">
   <%= render @poll.choices.default_order %>
 </ul>
 <div id="new_choice">
