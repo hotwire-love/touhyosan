@@ -3,7 +3,7 @@
 <%= bootstrap_form_for [poll, vote], data: { controller: 'autosubmit', action: 'draggable:sorted->autosubmit#submit' } do |f| %>
   <%= f.text_field :user_name %>
 
-  <ul data-controller="draggable">
+  <ul data-controller="draggable" class="vote-list">
     <%= f.fields_for :vote_details do |vdf| %>
       <li class="StackedListItem--isDraggable">
         <%= vdf.object.choice.title %>

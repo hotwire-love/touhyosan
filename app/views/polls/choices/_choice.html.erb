@@ -1,4 +1,4 @@
 <li id="<%= dom_id(choice) %>">
   <%= choice.title %>
-  <%= button_to '削除', [choice.poll, choice], method: :delete %>
+  <%= button_to '削除', [choice.poll, choice], method: :delete, class: 'btn btn-sm btn-danger' %>
 </li>
