@@ -31,13 +31,7 @@ RSpec.describe 'Votes', type: :system do
 
   def drag_choice(from:, to:)
     choices = all('.StackedListItem--isDraggable')
-    wait_for_turbo
     choices[from].drag_to choices[to]
-    wait_for_turbo
-  end
-
-  def wait_for_turbo
-    sleep 0.5
   end
 
   context '登録時はdrag and dropしない場合' do
@@ -48,7 +42,6 @@ RSpec.describe 'Votes', type: :system do
 
       click_link '投票を作成'
       expect(page).to have_content '「Hotwire.love meetup Vol.18」に投票'
-      wait_for_turbo
       fill_in 'User name', with: 'Alice'
       fill_in 'Comment', with: 'どれも甲乙付けがたい'
       click_button '登録する'
@@ -63,7 +56,6 @@ RSpec.describe 'Votes', type: :system do
 
       click_link 'Alice'
       expect(page).to have_content '「Hotwire.love meetup Vol.18」に投票'
-      wait_for_turbo
       fill_in 'User name', with: 'ありす'
       fill_in 'Comment', with: '迷うわ〜'
       click_button '更新する'
@@ -87,7 +79,6 @@ RSpec.describe 'Votes', type: :system do
       # 登録フォーム内でdrag and drop
       click_link '投票を作成'
       expect(page).to have_content '「Hotwire.love meetup Vol.18」に投票'
-      wait_for_turbo
       fill_in 'User name', with: 'Alice'
       fill_in 'Comment', with: 'どれも甲乙付けがたい'
 
@@ -99,6 +90,7 @@ RSpec.describe 'Votes', type: :system do
       assert_ranking('Stimulusについて', 'Turboについて', 'Stradaについて')
       click_button '更新する'
 
+      playwright_wait_for(selector: '#exampleModal', state: :hidden)
       within '#poll_result' do
         expect(page).to have_content 'Alice'
         expect(page).to have_content 'どれも甲乙付けがたい'
@@ -107,12 +99,16 @@ RSpec.describe 'Votes', type: :system do
       # 更新フォーム内でdrag and drop
       click_link 'Alice'
       expect(page).to have_content '「Hotwire.love meetup Vol.18」に投票'
-      wait_for_turbo
-
       drag_choice(from: 1, to: 2)
+      click_button '更新する'
+      playwright_wait_for(selector: '#exampleModal', state: :hidden)
       assert_ranking('Stimulusについて', 'Stradaについて', 'Turboについて')
 
+      click_link 'Alice'
+      expect(page).to have_content '「Hotwire.love meetup Vol.18」に投票'
       drag_choice(from: 0, to: 1)
+      click_button '更新する'
+      playwright_wait_for(selector: '#exampleModal', state: :hidden)
       assert_ranking('Stradaについて', 'Stimulusについて', 'Turboについて')
     end
   end
