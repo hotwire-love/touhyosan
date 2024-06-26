@@ -1,18 +1,22 @@
-<h1>「<%= poll.title %>」に投票</h1>
+<%= turbo_frame_tag "vote_form" do %>
+  <%= turbo_stream_from vote %>
 
-<%= bootstrap_form_for [poll, vote], data: { controller: 'autosubmit', action: 'draggable:sorted->autosubmit#submit' } do |f| %>
-  <%= f.text_field :user_name %>
+  <h1>「<%= poll.title %>」に投票</h1>
 
-  <ul data-controller="draggable" class="vote-list">
-    <%= f.fields_for :vote_details do |vdf| %>
-      <li class="StackedListItem--isDraggable">
-        <%= vdf.object.choice.title %>
-        <%= vdf.hidden_field :choice_id %>
-        <%= vdf.hidden_field :position, 'data-draggable-target': 'position' %>
-      </li>
-    <% end %>
-  </ul>
+  <%= bootstrap_form_for [poll, vote], data: { controller: 'autosubmit', action: 'draggable:sorted->autosubmit#submit' } do |f| %>
+    <%= f.text_field :user_name %>
 
-  <%= f.text_area :comment, data: {controller: 'textarea-autosize'} %>
-  <%= f.submit class: 'btn btn-primary' %>
+    <ul data-controller="draggable" class="vote-list">
+      <%= f.fields_for :vote_details do |vdf| %>
+        <li class="StackedListItem--isDraggable">
+          <%= vdf.object.choice.title %>
+          <%= vdf.hidden_field :choice_id %>
+          <%= vdf.hidden_field :position, 'data-draggable-target': 'position' %>
+        </li>
+      <% end %>
+    </ul>
+
+    <%= f.text_area :comment, data: {controller: 'textarea-autosize'} %>
+    <%= f.submit class: 'btn btn-primary' %>
+  <% end %>
 <% end %>

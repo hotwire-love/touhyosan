@@ -12,6 +12,10 @@ module Polls
       if @choice.save
         Turbo::StreamsChannel.broadcast_append_to @poll, target: "poll-choices", partial: 'polls/choices/choice', locals: { choice: @choice }
         Turbo::StreamsChannel.broadcast_replace_to @poll, target: "poll_result", partial: 'polls/result', locals: { poll: @poll }
+
+        @poll.votes.each do |vote|
+          Turbo::StreamsChannel.broadcast_replace_to vote, target: 'vote_form', partial: 'polls/votes/form', locals: { poll: @poll, vote: vote }
+        end
       else
         render :index, status: :unprocessable_entity
       end
