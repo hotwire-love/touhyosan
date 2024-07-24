@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "vote_form" do %>
-  <%= turbo_stream_from vote %>
+  <%= turbo_stream_from vote if vote.persisted? %>
 
   <h1>「<%= poll.title %>」に投票</h1>
 
