@@ -1,0 +1,10 @@
+<ul data-controller="draggable" class="vote-list">
+  <% vote_details.each_with_index do |vd, i| %>
+    <li class="StackedListItem--isDraggable">
+      <%= vd.choice.title %>
+      <%= hidden_field_tag "vote[vote_details_attributes][#{i}][id]", vd.id if vd.persisted? %>
+      <%= hidden_field_tag "vote[vote_details_attributes][#{i}][choice_id]", vd.choice_id %>
+      <%= hidden_field_tag "vote[vote_details_attributes][#{i}][position]", vd.position, data: { 'draggable-target' => 'position' } %>
+    </li>
+  <% end %>
+</ul>

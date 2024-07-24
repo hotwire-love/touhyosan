@@ -1,4 +1,5 @@
 <%= turbo_frame_tag "vote_form" do %>
+  <%= turbo_stream_from "#{poll.id}-new-vote" if vote.new_record? %>
   <%= turbo_stream_from vote if vote.persisted? %>
 
   <h1>「<%= poll.title %>」に投票</h1>
@@ -6,15 +7,7 @@
   <%= bootstrap_form_for [poll, vote], data: { controller: 'autosubmit', action: 'draggable:sorted->autosubmit#submit' } do |f| %>
     <%= f.text_field :user_name %>
 
-    <ul data-controller="draggable" class="vote-list">
-      <%= f.fields_for :vote_details do |vdf| %>
-        <li class="StackedListItem--isDraggable">
-          <%= vdf.object.choice.title %>
-          <%= vdf.hidden_field :choice_id %>
-          <%= vdf.hidden_field :position, 'data-draggable-target': 'position' %>
-        </li>
-      <% end %>
-    </ul>
+    <%= render 'polls/votes/vote_details', vote_details: vote.vote_details %>
 
     <%= f.text_area :comment, data: {controller: 'textarea-autosize'} %>
     <%= f.submit class: 'btn btn-primary' %>
