@@ -37,7 +37,7 @@ module Polls
         @poll.choices.each_with_index do |choice, index|
           new_vote.vote_details.build(choice: choice, position: index)
         end
-        Turbo::StreamsChannel.broadcast_replace_to "#{@poll.id}-new-vote", target: 'vote_form', partial: 'polls/votes/vote_details', locals: { vote_details: new_vote.vote_details }
+        Turbo::StreamsChannel.broadcast_replace_to "#{@poll.id}-new-vote", target: 'vote_form', partial: 'polls/votes/vote_details', locals: { vote_details: new_vote.vote_details, poll: @poll, vote: new_vote }
       else
         render :edit, status: :unprocessable_entity
       end

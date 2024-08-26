@@ -7,7 +7,7 @@
   <%= bootstrap_form_for [poll, vote], data: { controller: 'autosubmit', action: 'draggable:sorted->autosubmit#submit' } do |f| %>
     <%= f.text_field :user_name %>
 
-    <%= render 'polls/votes/vote_details', vote_details: vote.vote_details %>
+    <%= render 'polls/votes/vote_details', vote_details: vote.vote_details, poll:, vote: %>
 
     <%= f.text_area :comment, data: {controller: 'textarea-autosize'} %>
     <%= f.submit class: 'btn btn-primary' %>
