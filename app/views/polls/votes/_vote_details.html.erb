@@ -1,5 +1,5 @@
-<%= fields model: [poll, vote] do |f| %>
-  <ul data-controller="draggable" class="vote-list">
+<ul data-controller="draggable" class="vote-list" id="vote_details">
+  <%= fields model: [poll, vote] do |f| %>
     <%= f.fields_for :vote_details do |vdf| %>
       <li class="StackedListItem--isDraggable">
         <%= vdf.object.choice.title %>
@@ -7,5 +7,5 @@
         <%= vdf.hidden_field :position, 'data-draggable-target': 'position' %>
       </li>
     <% end %>
-  </ul>
-<% end %>
+  <% end %>
+</ul>
