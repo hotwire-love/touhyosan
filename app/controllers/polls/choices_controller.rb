@@ -56,9 +56,15 @@ module Polls
       Turbo::StreamsChannel.broadcast_replace_to @poll, target: "poll_result", partial: 'polls/result', locals: { poll: @poll }
       # NOTE: ごくまれに0バイトのHTMLが返されることがあるので、それを防ぐために destroy.turbo_stream.erb を返す
 
+      # TODO: DRYにしたい
       @poll.votes.each do |vote|
-        Turbo::StreamsChannel.broadcast_replace_to vote, target: 'vote_form', partial: 'polls/votes/form', locals: { poll: @poll, vote: vote }
+        Turbo::StreamsChannel.broadcast_replace_to vote, target: 'vote_details', partial: 'polls/votes/vote_details', locals: { poll: @poll, vote: vote }
       end
+      new_vote = @poll.votes.new
+      @poll.choices.each_with_index do |choice, index|
+        new_vote.vote_details.build(choice: choice, position: index)
+      end
+      Turbo::StreamsChannel.broadcast_replace_to "#{@poll.id}-new-vote", target: 'vote_details', partial: 'polls/votes/vote_details', locals: { poll: @poll, vote: new_vote }
     end
 
     private
