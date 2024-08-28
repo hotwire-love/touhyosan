@@ -1,4 +1,4 @@
 <%= bootstrap_form_for [choice.poll, choice] do |f| %>
-  <%= f.text_field :title %>
+  <%= f.text_field :title, hide_label: choice.persisted? %>
   <%= f.submit class: 'btn btn-sm btn-primary' %>
 <% end %>

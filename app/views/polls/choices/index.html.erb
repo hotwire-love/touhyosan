@@ -1,10 +1,10 @@
 
 <%= turbo_stream_from @poll %>
-<h2>「<%= @poll.title %>」</h2>
+<h2 class="mb-4">「<%= @poll.title %>」</h2>
 <ul id="poll-choices">
   <%= render @poll.choices.default_order %>
 </ul>
-<div id="new_choice">
+<div id="new_choice" class="mb-4">
   <%= render 'form', choice: @choice %>
 </div>
 <%= link_to '投票画面へ進む', @poll %>
