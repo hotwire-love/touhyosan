@@ -41,7 +41,7 @@ RSpec.describe 'Votes', type: :system do
   end
 
   context '登録時はdrag and dropしない場合' do
-    example '登録するボタンでcreateできる', js: true do
+    example '登録するボタンでcreateできる', :js do
       create_choices
 
       assert_ranking('Turboについて', 'Stimulusについて', 'Stradaについて')
@@ -79,7 +79,7 @@ RSpec.describe 'Votes', type: :system do
   end
 
   context '登録時にdrag and dropする場合' do
-    example 'drag and dropでcreateできる', js: true do
+    example 'drag and dropでcreateできる', :js do
       create_choices
 
       assert_ranking('Turboについて', 'Stimulusについて', 'Stradaについて')
