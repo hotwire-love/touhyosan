@@ -17,22 +17,52 @@
   border-radius: 0.2rem;
 }
 
-// TODO: ChatGPTに作ってもらった。あとでちゃんとクラスで指定する
+// https://codepen.io/superjaberwocky/pen/rLKxOa
+.callout {
+  padding: 10px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+  code {
+    border-radius: 3px;
+  }
+  & + .bs-callout {
+    margin-top: -5px;
+  }
+}
+@each $name,$color in (default,#777),(primary,#68E5C5),(success,#5cb85c),(danger,#d9534f),(warning,#f0ad4e),(info,#5bc0de), (bdc,#29527a) {
+  .callout-#{$name} {
+    border-left-color: $color;
+    h4 {
+      color: $color;
+    }
+  }
+}
 
+// TODO: ChatGPTに作ってもらった。あとでちゃんとクラスで指定する
 ul.vote-list {
   list-style-type: none;
   padding: 0;
   margin: 0;
 
   li {
-    background-color: #f1f1f1;
+    background-color: #E7FDFB;
     border: 1px solid #ccc;
+    border-radius: 6px;
     padding: 8px;
     margin-bottom: 4px;
     cursor: move;
   }
 
   li:hover {
-    background-color: #e9e9e9;
+    background-color: #D7FCF8;
   }
 }

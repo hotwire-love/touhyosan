@@ -3,6 +3,9 @@
   <%= turbo_stream_from vote if vote.persisted? %>
 
   <h1 class="vote-form-heading">「<%= poll.title %>」に投票</h1>
+  <div class="callout callout-primary">
+    投票者名を入力し、選択肢をドラッグ＆ドロップしてください。
+  </div>
 
   <%= bootstrap_form_for [poll, vote], data: { controller: 'autosubmit', action: 'draggable:sorted->autosubmit#submit' } do |f| %>
     <%= f.text_field :user_name %>

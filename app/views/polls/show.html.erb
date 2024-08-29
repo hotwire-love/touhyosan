@@ -1,5 +1,10 @@
 <%= turbo_stream_from @poll %>
 <h2 class="page-heading">「<%= @poll.title %>」の投票結果</h2>
+<div class="callout callout-primary">
+  「投票を作成」ボタンをクリックして、投票を行いましょう。
+  <br>
+  投票結果はリアルタイムに更新されます。
+</div>
 
 <%= render 'result', poll: @poll %>
 
