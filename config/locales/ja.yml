@@ -1,6 +1,11 @@
 ja:
   activerecord:
     attributes:
+      poll:
+        title: 投票タイトル
+      vote:
+        user_name: 投票者名
+        comment: コメント
       choice:
         title: 新しい選択肢
     errors:

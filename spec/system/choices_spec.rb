@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Choices', :js, type: :system do
   def assert_votes(*choices, user_name: '', comment: '')
     wait_for_turbo
-    expect(page).to have_field 'User name', with: user_name unless user_name.empty?
-    expect(page).to have_field 'Comment', with: comment
+    expect(page).to have_field '投票者名', with: user_name unless user_name.empty?
+    expect(page).to have_field 'コメント', with: comment
     votes = all('.vote-list li')
     expect(votes.size).to eq choices.size
     votes.each_with_index do |li, i|
@@ -28,7 +28,7 @@ RSpec.describe 'Choices', :js, type: :system do
   example 'CRUDができる' do
     visit root_path
 
-    fill_in 'Title', with: 'Hotwire.love meetup Vol.35'
+    fill_in '投票タイトル', with: 'Hotwire.love meetup Vol.35'
     click_button '登録する'
     expect(page).to have_selector 'h2', text: 'Hotwire.love meetup Vol.35'
 
