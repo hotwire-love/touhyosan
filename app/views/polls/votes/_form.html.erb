@@ -2,7 +2,7 @@
   <%= turbo_stream_from "#{poll.id}-new-vote" if vote.new_record? %>
   <%= turbo_stream_from vote if vote.persisted? %>
 
-  <h1>「<%= poll.title %>」に投票</h1>
+  <h1 class="vote-form-heading">「<%= poll.title %>」に投票</h1>
 
   <%= bootstrap_form_for [poll, vote], data: { controller: 'autosubmit', action: 'draggable:sorted->autosubmit#submit' } do |f| %>
     <%= f.text_field :user_name %>
