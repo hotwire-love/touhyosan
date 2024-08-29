@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Choices', :js, type: :system do
   def assert_ranking(*choices)
+    wait_for_turbo
     rows = all('#poll_result tr')[1..-2]
     expect(rows.size).to eq choices.size
     rows.each_with_index do |row, i|
@@ -9,6 +10,10 @@ RSpec.describe 'Choices', :js, type: :system do
         expect(find('th').text).to eq choices[i]
       end
     end
+  end
+
+  def wait_for_turbo
+    sleep 0.5
   end
 
   example 'CRUDができる' do
@@ -38,6 +43,11 @@ RSpec.describe 'Choices', :js, type: :system do
       accept_confirm { click_button '削除' }
       expect(page).to_not have_selector 'li'
     end
+
+    click_link '投票画面へ進む'
+    expect(page).to have_link '投票を作成'
+    click_link '選択肢作成画面へ戻る'
+    expect(page).to have_field '新しい選択肢', with: ''
   end
 
   describe '投票結果テーブルへのリアルタイム反映' do
