@@ -10,25 +10,11 @@ RSpec.describe 'Votes', :js, type: :system do
     visit poll_path(poll)
   end
 
-  def assert_ranking(*choices)
-    rows = all('#poll_result tr')[1..-2]
-    expect(rows.size).to eq choices.size
-    rows.each_with_index do |row, i|
-      within row do
-        expect(find('th').text).to eq choices[i]
-      end
-    end
-  end
-
   def drag_choice(from:, to:)
     choices = all('.StackedListItem--isDraggable')
     wait_for_turbo
     choices[from].drag_to choices[to]
     wait_for_turbo
-  end
-
-  def wait_for_turbo
-    sleep 0.5
   end
 
   context '登録時はdrag and dropしない場合' do

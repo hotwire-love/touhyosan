@@ -1,17 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Choices', :js, type: :system do
-  def assert_ranking(*choices)
-    wait_for_turbo
-    rows = all('#poll_result tr')[1..-2]
-    expect(rows.size).to eq choices.size
-    rows.each_with_index do |row, i|
-      within row do
-        expect(find('th').text).to eq choices[i]
-      end
-    end
-  end
-
   def assert_votes(*choices, user_name: '', comment: '')
     wait_for_turbo
     expect(page).to have_field 'User name', with: user_name unless user_name.empty?
@@ -23,10 +12,6 @@ RSpec.describe 'Choices', :js, type: :system do
         expect(page).to have_content choices[i]
       end
     end
-  end
-
-  def wait_for_turbo
-    sleep 0.5
   end
 
   def create_existing_vote(user_name: 'Alice', comment: '')
