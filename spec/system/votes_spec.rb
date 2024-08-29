@@ -1,22 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe 'Votes', type: :system do
+RSpec.describe 'Votes', :js, type: :system do
   def create_choices
-    visit root_path
+    poll = Poll.create!(title: 'Hotwire.love meetup Vol.18')
+    poll.choices.create!(title: 'Turboについて')
+    poll.choices.create!(title: 'Stimulusについて')
+    poll.choices.create!(title: 'Stradaについて')
 
-    fill_in 'Title', with: 'Hotwire.love meetup Vol.18'
-    fill_in 'Choices text', with: <<~TEXT
-      Turboについて
-      Stimulusについて
-      Stradaについて
-    TEXT
-    click_button '登録する'
-
-    within '#poll_result' do
-      expect(page).to have_content 'Turboについて'
-      expect(page).to have_content 'Stimulusについて'
-      expect(page).to have_content 'Stradaについて'
-    end
+    visit poll_path(poll)
   end
 
   def assert_ranking(*choices)
@@ -41,7 +32,7 @@ RSpec.describe 'Votes', type: :system do
   end
 
   context '登録時はdrag and dropしない場合' do
-    example '登録するボタンでcreateできる', :js do
+    example '登録するボタンでcreateできる' do
       create_choices
 
       assert_ranking('Turboについて', 'Stimulusについて', 'Stradaについて')
@@ -79,7 +70,7 @@ RSpec.describe 'Votes', type: :system do
   end
 
   context '登録時にdrag and dropする場合' do
-    example 'drag and dropでcreateできる', :js do
+    example 'drag and dropでcreateできる' do
       create_choices
 
       assert_ranking('Turboについて', 'Stimulusについて', 'Stradaについて')
