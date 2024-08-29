@@ -7,6 +7,9 @@
             new_poll_vote_path(@poll),
             class: "btn btn-primary",
             data: { turbo_frame: "vote_form" } %>
+<div class="mt-4">
+  ⬅️ <%= link_to '選択肢作成画面へ戻る', [@poll, :choices] %>
+</div>
 
 <%# TODO: layouts/application.html.erb に移動するなどして共通化したい %>
 <div data-controller="modal"
