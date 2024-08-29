@@ -1,5 +1,5 @@
 <%= turbo_stream_from @poll %>
-<h2 class="mb-4">「<%= @poll.title %>」</h2>
+<h2 class="mb-4 page-heading">「<%= @poll.title %>」の選択肢を登録</h2>
 <ul id="poll-choices">
   <%= render @poll.choices.default_order %>
 </ul>

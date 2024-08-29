@@ -30,7 +30,7 @@ RSpec.describe 'Choices', :js, type: :system do
 
     fill_in '投票タイトル', with: 'Hotwire.love meetup Vol.35'
     click_button '登録する'
-    expect(page).to have_selector 'h2', text: 'Hotwire.love meetup Vol.35'
+    expect(page).to have_selector 'h2', text: '「Hotwire.love meetup Vol.35」の選択肢を登録'
 
     # Create
     fill_in '新しい選択肢', with: 'Turboについて'
@@ -54,9 +54,9 @@ RSpec.describe 'Choices', :js, type: :system do
     end
 
     click_link '投票画面へ進む'
-    expect(page).to have_link '投票を作成'
-    click_link '選択肢作成画面へ戻る'
-    expect(page).to have_field '新しい選択肢', with: ''
+    expect(page).to have_selector 'h2', text: '「Hotwire.love meetup Vol.35」の投票結果'
+    click_link '選択肢登録画面へ戻る'
+    expect(page).to have_selector 'h2', text: '「Hotwire.love meetup Vol.35」の選択肢を登録'
   end
 
   describe '投票結果テーブルへのリアルタイム反映' do
@@ -72,7 +72,7 @@ RSpec.describe 'Choices', :js, type: :system do
       # Create
       using_session 'Bob' do
         visit poll_choices_path(@poll)
-        expect(page).to have_selector 'h2', text: 'Hotwire.love meetup Vol.35'
+        expect(page).to have_selector 'h2', text: '「Hotwire.love meetup Vol.35」の選択肢を登録'
 
         fill_in '新しい選択肢', with: 'Stimulusについて'
         click_button '登録する'
@@ -119,7 +119,7 @@ RSpec.describe 'Choices', :js, type: :system do
       # Create
       using_session 'Bob' do
         visit poll_choices_path(@poll)
-        expect(page).to have_selector 'h2', text: 'Hotwire.love meetup Vol.35'
+        expect(page).to have_selector 'h2', text: '「Hotwire.love meetup Vol.35」の選択肢を登録'
 
         fill_in '新しい選択肢', with: 'Stimulusについて'
         click_button '登録する'
@@ -166,7 +166,7 @@ RSpec.describe 'Choices', :js, type: :system do
       # Create
       using_session 'Bob' do
         visit poll_choices_path(@poll)
-        expect(page).to have_selector 'h2', text: 'Hotwire.love meetup Vol.35'
+        expect(page).to have_selector 'h2', text: '「Hotwire.love meetup Vol.35」の選択肢を登録'
 
         fill_in '新しい選択肢', with: 'Stimulusについて'
         click_button '登録する'

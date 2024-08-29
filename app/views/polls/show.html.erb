@@ -1,5 +1,5 @@
 <%= turbo_stream_from @poll %>
-<h2>「<%= @poll.title %>」</h2>
+<h2 class="page-heading">「<%= @poll.title %>」の投票結果</h2>
 
 <%= render 'result', poll: @poll %>
 
@@ -8,7 +8,7 @@
             class: "btn btn-primary",
             data: { turbo_frame: "vote_form" } %>
 <div class="mt-4">
-  ⬅️ <%= link_to '選択肢作成画面へ戻る', [@poll, :choices] %>
+  ⬅️ <%= link_to '選択肢登録画面へ戻る', [@poll, :choices] %>
 </div>
 
 <%# TODO: layouts/application.html.erb に移動するなどして共通化したい %>
