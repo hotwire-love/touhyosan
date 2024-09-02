@@ -3,5 +3,5 @@
 <% if params[:commit].present? %>
   <%= turbo_stream.update "vote_form" %>
 <% else %>
-  <%= turbo_stream.update "vote_form", partial: 'polls/votes/form', locals: { poll: @poll, vote: @vote } %>
+  <%= turbo_stream.replace "vote_form", partial: 'polls/votes/form', locals: { poll: @poll, vote: @vote } %>
 <% end %>

@@ -1,5 +1,10 @@
 <%= turbo_stream_from @poll %>
-<h2>「<%= @poll.title %>」</h2>
+<h2 class="page-heading">「<%= @poll.title %>」の投票結果</h2>
+<div class="callout callout-primary">
+  「投票を作成」ボタンをクリックして、投票を行いましょう。
+  <br>
+  投票結果はリアルタイムに更新されます。
+</div>
 
 <%= render 'result', poll: @poll %>
 
@@ -7,6 +12,9 @@
             new_poll_vote_path(@poll),
             class: "btn btn-primary",
             data: { turbo_frame: "vote_form" } %>
+<div class="mt-4">
+  ⬅️ <%= link_to '選択肢登録画面へ戻る', [@poll, :choices] %>
+</div>
 
 <%# TODO: layouts/application.html.erb に移動するなどして共通化したい %>
 <div data-controller="modal"

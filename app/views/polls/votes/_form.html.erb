@@ -1,18 +1,18 @@
-<h1>「<%= poll.title %>」に投票</h1>
+<%= turbo_frame_tag "vote_form" do %>
+  <%= turbo_stream_from "#{poll.id}-new-vote" if vote.new_record? %>
+  <%= turbo_stream_from vote if vote.persisted? %>
 
-<%= bootstrap_form_for [poll, vote], data: { controller: 'autosubmit', action: 'draggable:sorted->autosubmit#submit' } do |f| %>
-  <%= f.text_field :user_name %>
+  <h1 class="vote-form-heading">「<%= poll.title %>」に投票</h1>
+  <div class="callout callout-primary">
+    投票者名を入力し、選択肢をドラッグ＆ドロップしてください。
+  </div>
 
-  <ul data-controller="draggable">
-    <%= f.fields_for :vote_details do |vdf| %>
-      <li class="StackedListItem--isDraggable">
-        <%= vdf.object.choice.title %>
-        <%= vdf.hidden_field :choice_id %>
-        <%= vdf.hidden_field :position, 'data-draggable-target': 'position' %>
-      </li>
-    <% end %>
-  </ul>
+  <%= bootstrap_form_for [poll, vote], data: { controller: 'autosubmit', action: 'draggable:sorted->autosubmit#submit' } do |f| %>
+    <%= f.text_field :user_name %>
 
-  <%= f.text_area :comment, data: {controller: 'textarea-autosize'} %>
-  <%= f.submit class: 'btn btn-primary' %>
+    <%= render 'polls/votes/vote_details', poll:, vote: %>
+
+    <%= f.text_area :comment, data: {controller: 'textarea-autosize'} %>
+    <%= f.submit class: 'btn btn-primary' %>
+  <% end %>
 <% end %>

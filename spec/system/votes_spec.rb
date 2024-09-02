@@ -1,32 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe 'Votes', type: :system do
+RSpec.describe 'Votes', :js, type: :system do
   def create_choices
-    visit root_path
+    poll = Poll.create!(title: 'Hotwire.love meetup Vol.18')
+    poll.choices.create!(title: 'Turboについて')
+    poll.choices.create!(title: 'Stimulusについて')
+    poll.choices.create!(title: 'Stradaについて')
 
-    fill_in 'Title', with: 'Hotwire.love meetup Vol.18'
-    fill_in 'Choices text', with: <<~TEXT
-      Turboについて
-      Stimulusについて
-      Stradaについて
-    TEXT
-    click_button '登録する'
-
-    within '#poll_result' do
-      expect(page).to have_content 'Turboについて'
-      expect(page).to have_content 'Stimulusについて'
-      expect(page).to have_content 'Stradaについて'
-    end
-  end
-
-  def assert_ranking(*choices)
-    rows = all('#poll_result tr')[1..-2]
-    expect(rows.size).to eq choices.size
-    rows.each_with_index do |row, i|
-      within row do
-        expect(find('th').text).to eq choices[i]
-      end
-    end
+    visit poll_path(poll)
   end
 
   def drag_choice(from:, to:)
@@ -36,12 +17,8 @@ RSpec.describe 'Votes', type: :system do
     wait_for_turbo
   end
 
-  def wait_for_turbo
-    sleep 0.5
-  end
-
   context '登録時はdrag and dropしない場合' do
-    example '登録するボタンでcreateできる', js: true do
+    example '登録するボタンでcreateできる' do
       create_choices
 
       assert_ranking('Turboについて', 'Stimulusについて', 'Stradaについて')
@@ -49,8 +26,8 @@ RSpec.describe 'Votes', type: :system do
       click_link '投票を作成'
       expect(page).to have_content '「Hotwire.love meetup Vol.18」に投票'
       wait_for_turbo
-      fill_in 'User name', with: 'Alice'
-      fill_in 'Comment', with: 'どれも甲乙付けがたい'
+      fill_in '投票者名', with: 'Alice'
+      fill_in 'コメント', with: 'どれも甲乙付けがたい'
       click_button '登録する'
 
       expect(page).to have_content '投票を作成しました'
@@ -64,8 +41,8 @@ RSpec.describe 'Votes', type: :system do
       click_link 'Alice'
       expect(page).to have_content '「Hotwire.love meetup Vol.18」に投票'
       wait_for_turbo
-      fill_in 'User name', with: 'ありす'
-      fill_in 'Comment', with: '迷うわ〜'
+      fill_in '投票者名', with: 'ありす'
+      fill_in 'コメント', with: '迷うわ〜'
       click_button '更新する'
 
       expect(page).to have_content '投票を更新しました'
@@ -79,7 +56,7 @@ RSpec.describe 'Votes', type: :system do
   end
 
   context '登録時にdrag and dropする場合' do
-    example 'drag and dropでcreateできる', js: true do
+    example 'drag and dropでcreateできる' do
       create_choices
 
       assert_ranking('Turboについて', 'Stimulusについて', 'Stradaについて')
@@ -88,8 +65,8 @@ RSpec.describe 'Votes', type: :system do
       click_link '投票を作成'
       expect(page).to have_content '「Hotwire.love meetup Vol.18」に投票'
       wait_for_turbo
-      fill_in 'User name', with: 'Alice'
-      fill_in 'Comment', with: 'どれも甲乙付けがたい'
+      fill_in '投票者名', with: 'Alice'
+      fill_in 'コメント', with: 'どれも甲乙付けがたい'
 
       drag_choice(from: 0, to: 1)
       within '#poll_result' do

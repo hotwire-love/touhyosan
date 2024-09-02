@@ -1,0 +1,14 @@
+<%= turbo_stream_from @poll %>
+<h2 class="mb-4 page-heading">「<%= @poll.title %>」の選択肢を登録</h2>
+<div class="callout callout-primary">
+  投票の候補となる選択肢を登録してください。
+  <br>
+  選択肢を登録したら投票画面へ進みましょう。
+</div>
+<ul id="poll-choices">
+  <%= render @poll.choices.default_order %>
+</ul>
+<div id="new_choice" class="mb-4">
+  <%= render 'form', choice: @choice %>
+</div>
+<%= link_to '投票画面へ進む', @poll %> ➡️

@@ -1,0 +1,12 @@
+選択肢（優先したいものほど上に並べる）
+<ul data-controller="draggable" class="vote-list mb-3 mt-2" id="vote_details">
+  <%= fields model: [poll, vote] do |f| %>
+    <%= f.fields_for :vote_details do |vdf| %>
+      <li class="StackedListItem--isDraggable">
+        <%= vdf.object.choice.title %>
+        <%= vdf.hidden_field :choice_id %>
+        <%= vdf.hidden_field :position, 'data-draggable-target': 'position' %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
