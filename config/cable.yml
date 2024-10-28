@@ -9,4 +9,6 @@ test:
 production:
   adapter: redis
   url: <%= Rails.env.production? ? ENV.fetch("REDIS_URL") : ENV["REDIS_URL"] %>
+  ssl_params:
+    verify_mode: <%= OpenSSL::SSL::VERIFY_NONE %>
   channel_prefix: touhyosan_production
