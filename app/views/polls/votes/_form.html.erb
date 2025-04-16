@@ -12,7 +12,10 @@
 
     <%= render 'polls/votes/vote_details', poll:, vote: %>
 
-    <%= f.text_area :comment, data: {controller: 'textarea-autosize'} %>
+    <div data-controller="markdown">
+      <%= f.text_area :comment, data: {controller: 'textarea-autosize', action: 'markdown#change'} %>
+      <div data-markdown-target="preview"></div>
+    </div>
     <%= f.submit class: 'btn btn-primary' %>
   <% end %>
 <% end %>
