@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { marked } from "marked";
+import DOMPurify from 'dompurify';
 
 // Connects to data-controller="markdown"
 export default class extends Controller {
@@ -17,10 +18,10 @@ export default class extends Controller {
   }
 
   change() {
-    this.previewTarget.innerHTML = marked.parse(this.editorTarget.value);
+    this.previewTarget.innerHTML = DOMPurify.sanitize(marked.parse(this.editorTarget.value));
   }
 
   show() {
-    this.previewTarget.innerHTML = marked.parse(this.sourceValue);
+    this.previewTarget.innerHTML = DOMPurify.sanitize(marked.parse(this.sourceValue));
   }
 }
