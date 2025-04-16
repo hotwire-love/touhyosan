@@ -19,15 +19,19 @@ export default class extends Controller {
   }
 
   change() {
-    this.previewTarget.innerHTML = DOMPurify.sanitize(marked.parse(this.editorTarget.value));
+    this.#renderPreview(this.editorTarget.value)
   }
 
   show() {
-    this.previewTarget.innerHTML = DOMPurify.sanitize(marked.parse(this.sourceValue));
+    this.#renderPreview(this.sourceValue)
   }
 
   togglePreview() {
     this.editorTarget.classList.toggle("d-none", this.previewSwitchTarget.checked);
     this.previewTarget.classList.toggle("d-none", !this.previewSwitchTarget.checked);
+  }
+
+  #renderPreview(source) {
+    this.previewTarget.innerHTML = DOMPurify.sanitize(marked.parse(source));
   }
 }
