@@ -3,13 +3,13 @@ import { marked } from "marked";
 
 // Connects to data-controller="markdown"
 export default class extends Controller {
-  static targets = ["preview"]
+  static targets = ["editor", "preview"]
 
   connect() {
+    this.change()
   }
 
-  change(event) {
-    const target = event.target;
-    this.previewTarget.innerHTML = marked.parse(target.value);
+  change() {
+    this.previewTarget.innerHTML = marked.parse(this.editorTarget.value);
   }
 }
