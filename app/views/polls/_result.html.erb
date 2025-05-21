@@ -23,16 +23,14 @@
       <% end %>
     </tr>
   <% end %>
-
   <tr>
     <th>コメント</th>
     <td></td>
 
     <% poll.votes.default_order.each do |vote| %>
-      <td data-controller="markdown" data-markdown-source-value="<%= vote.comment %>">
-        <div data-markdown-target="preview"></div>
+      <td>
+        <%= markdown(vote.comment) %>
       </td>
     <% end %>
-
   </tr>
 </table>

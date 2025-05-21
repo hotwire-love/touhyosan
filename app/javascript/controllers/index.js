@@ -16,6 +16,9 @@ application.register("hello", HelloController)
 import MarkdownController from "./markdown_controller"
 application.register("markdown", MarkdownController)
 
+import MarkdownPreviewController from "./markdown_preview_controller"
+application.register("markdown-preview", MarkdownPreviewController)
+
 import ModalController from "./modal_controller"
 application.register("modal", ModalController)
 
