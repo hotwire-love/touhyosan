@@ -2,6 +2,9 @@ class MarkdownPreviewController < ApplicationController
   include MarkdownHelper
 
   def create
-    render plain: markdown(params[:text])
+    @preview_text = markdown(params[:text])
+    respond_to do |format|
+      format.turbo_stream
+    end
   end
 end

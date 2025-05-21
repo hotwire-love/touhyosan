@@ -13,17 +13,18 @@
     <%= render 'polls/votes/vote_details', poll:, vote: %>
 
     <div data-controller="markdown-preview">
-      <label>
-        <input type="checkbox" data-action="markdown-preview#toggle">
-        プレビュー
-      </label>
-      <%= f.text_area :comment, class: 'd-none', data: {
+<!--      <label>-->
+<!--        <input type="checkbox" data-action="markdown-preview#toggle">-->
+<!--        プレビュー-->
+<!--      </label>-->
+      <%= f.text_area :comment, data: {
         controller: 'textarea-autosize',
         markdown_preview_target: 'editor',
         action: 'input->markdown-preview#update'
       } %>
-      <turbo-frame id="markdown-preview" class="d-none" data-markdown-preview-target="preview">
-      </turbo-frame>
+      <div id="markdown-preview" data-markdown-preview-target="preview">
+        <p>hoge</p>
+      </div>
     </div>
     <%= f.submit class: 'btn btn-primary' %>
   <% end %>

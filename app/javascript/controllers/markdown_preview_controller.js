@@ -1,27 +1,41 @@
-// app/javascript/controllers/markdown_preview_controller.js
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["editor", "preview"]
 
-  async update() {
-    const response = await fetch("/markdown_preview", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "X-CSRF-Token": document.querySelector("[name='csrf-token']").content
-      },
-      body: `text=${encodeURIComponent(this.editorTarget.value)}`
-    })
-    this.previewTarget.innerHTML = await response.text()
+  connect() {
+    this.form = document.createElement("form")
+    this.form.action = "/markdown_preview"
+    this.form.method = "post"
+
+    // Turbo Streamを有効化
+    this.form.setAttribute("data-turbo-stream", "true")
+
+    // CSRFトークンの追加
+    const csrfToken = document.querySelector("[name='csrf-token']")
+    if (csrfToken) {
+      const hiddenField = document.createElement("input")
+      hiddenField.type = "hidden"
+      hiddenField.name = "authenticity_token"
+      hiddenField.value = csrfToken.content
+      this.form.appendChild(hiddenField)
+    }
+
+    // テキストエリアの input 用の hidden field
+    this.textField = document.createElement("input")
+    this.textField.type = "hidden"
+    this.textField.name = "text"
+    this.form.appendChild(this.textField)
+
+    document.body.appendChild(this.form)
   }
 
-  toggle(event) {
-    this.editorTarget.classList.toggle("d-none")
-    this.previewTarget.classList.toggle("d-none")
+  disconnect() {
+    this.form.remove()
+  }
 
-    if (!this.previewTarget.classList.contains("d-none")) {
-      this.update()
-    }
+  update() {
+    this.textField.value = this.editorTarget.value
+    this.form.requestSubmit()
   }
 }
