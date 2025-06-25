@@ -7,16 +7,11 @@
     投票者名を入力し、選択肢をドラッグ＆ドロップしてください。
   </div>
 
-  <%= bootstrap_form_for [poll, vote], data: { controller: 'autosubmit', action: 'draggable:sorted->autosubmit#submit' } do |f| %>
-    <%= f.text_field :user_name %>
+  <div data-controller="markdown-preview">
+    <%= bootstrap_form_for [poll, vote], data: { controller: 'autosubmit', action: 'draggable:sorted->autosubmit#submit' } do |f| %>
+      <%= f.text_field :user_name %>
 
-    <%= render 'polls/votes/vote_details', poll:, vote: %>
-
-    <div data-controller="markdown-preview">
-<!--      <label>-->
-<!--        <input type="checkbox" data-action="markdown-preview#toggle">-->
-<!--        プレビュー-->
-<!--      </label>-->
+      <%= render 'polls/votes/vote_details', poll:, vote: %>
       <%= f.text_area :comment, data: {
         controller: 'textarea-autosize',
         markdown_preview_target: 'editor',
@@ -25,7 +20,11 @@
       <div id="markdown-preview" data-markdown-preview-target="preview">
         <p>hoge</p>
       </div>
-    </div>
-    <%= f.submit class: 'btn btn-primary' %>
-  <% end %>
+      <%= f.submit class: 'btn btn-primary' %>
+    <% end %>
+
+    <%= form_with url: markdown_preview_path, data: { markdown_preview_target: 'previewForm' } do |preview_form| %>
+      <%= preview_form.hidden_field :text, data: { markdown_preview_target: 'previewFormInput' } %>
+    <% end %>
+  </div>
 <% end %>
