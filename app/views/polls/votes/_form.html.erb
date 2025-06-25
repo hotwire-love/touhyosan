@@ -7,7 +7,7 @@
     投票者名を入力し、選択肢をドラッグ＆ドロップしてください。
   </div>
 
-  <%= bootstrap_form_for [poll, vote], data: { controller: 'autosubmit', action: 'draggable:sorted->autosubmit#submit' } do |f| %>
+  <%= bootstrap_form_for [poll, vote], html: { id: "vote-form" }, data: { controller: 'autosubmit', action: 'draggable:sorted->autosubmit#submit' } do |f| %>
     <%= f.text_field :user_name %>
 
     <%= render 'polls/votes/vote_details', poll:, vote: %>
@@ -20,6 +20,12 @@
       <%= f.text_area :comment, class: 'd-none', data: {controller: 'textarea-autosize', action: 'markdown#change', markdown_target: 'editor' } %>
       <div data-markdown-target="preview" class="d-none"></div>
     </div>
-    <%= f.submit class: 'btn btn-primary' %>
   <% end %>
+  <div class="d-flex justify-content-between">
+    <% label = vote.new_record? ? t('helpers.submit.create') : t('helpers.submit.update') %>
+    <%= button_tag label, type: :submit, form: 'vote-form', class: 'btn btn-primary' %>
+    <% if vote.persisted? %>
+      <%= button_to '🗑️', [poll, vote], method: :delete, class: 'btn btn-sm', data: { turbo_confirm: '削除してもよろしいですか？' } %>
+    <% end %>
+  </div>
 <% end %>
