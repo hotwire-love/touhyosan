@@ -3,6 +3,6 @@ Rails.application.routes.draw do
 
   resources :polls, only: [:show, :new, :create] do
     resources :choices, only: [:index, :create, :destroy, :edit, :update], module: :polls
-    resources :votes, only: [:new, :create, :edit, :update], module: :polls
+    resources :votes, only: [:new, :create, :edit, :update, :destroy], module: :polls
   end
 end
