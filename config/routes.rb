@@ -5,4 +5,6 @@ Rails.application.routes.draw do
     resources :choices, only: [:index, :create, :destroy, :edit, :update], module: :polls
     resources :votes, only: [:new, :create, :edit, :update, :destroy], module: :polls
   end
+  # config/routes.rb
+  post 'markdown_preview', to: 'markdown_preview#create'
 end
